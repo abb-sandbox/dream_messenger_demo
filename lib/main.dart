@@ -1,24 +1,6 @@
+import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MaterialApp(home: MyApp(),));
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Hello World!"),
-      ),
-    );
-  }
+  runApp(const MaterialApp(home: SignUpPage(),));
 }
