@@ -23,10 +23,12 @@ class LocalDataService {
     }
   }
 
-  Future<void> setTheme( bool switchToDark) async {
-    await asyncPrefs.setString(
-      AppGlobalVariables.themeDataKey,
-      switchToDark ? 'dark' : 'light',
-    );
+  Future<void> setTheme({bool dark = false, bool light = false}) async {
+    if (dark || light) {
+      await asyncPrefs.setString(
+        AppGlobalVariables.themeDataKey,
+        light ? 'light' : 'dark',
+      );
+    }
   }
 }

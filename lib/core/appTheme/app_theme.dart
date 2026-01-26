@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 abstract class AppTheme {
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade300,
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        iconColor: WidgetStateProperty.all(Colors.grey.shade800),
+      ),
+    ),
     colorScheme: ColorScheme(
       brightness: Brightness.light,
       primary: Colors.blue.shade500,
-      onPrimary: Colors.blue.shade300,
+      onPrimary: Colors.grey.shade300,
       secondary: Colors.indigoAccent.shade400,
       onSecondary: Colors.indigoAccent.shade200,
       error: Colors.red.shade600,
@@ -18,10 +23,15 @@ abstract class AppTheme {
 
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade800,
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        iconColor: WidgetStateProperty.all(Colors.grey.shade300),
+      ),
+    ),
     colorScheme: ColorScheme(
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       primary: Colors.blue.shade800,
-      onPrimary: Colors.blue.shade600,
+      onPrimary: Colors.grey.shade300,
       secondary: Colors.indigoAccent.shade200,
       onSecondary: Colors.indigoAccent,
       error: Colors.red.shade800,
