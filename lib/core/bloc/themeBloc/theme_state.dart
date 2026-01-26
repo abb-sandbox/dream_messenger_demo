@@ -1,20 +1,24 @@
 import 'package:dream_messenger_demo/core/services/local_data_service.dart';
 import 'package:flutter/material.dart';
 
-abstract class ThemeState {}
+abstract class ThemeState {
+  ThemeData themeData;
+
+  ThemeState({required this.themeData});
+}
 
 class ThemeInitialState extends ThemeState {
-  ThemeData themeData;
-
-  ThemeInitialState({required this.themeData});
+  ThemeInitialState({required super.themeData});
 }
 
-class ThemeSwitchingState extends ThemeState {}
+class ThemeSwitchingState extends ThemeState {
+  ThemeSwitchingState({required super.themeData});
+}
 
 class ThemeSwitchedState extends ThemeState {
-  ThemeData themeData;
-
-  ThemeSwitchedState({required this.themeData});
+  ThemeSwitchedState({required super.themeData});
 }
 
-class ThemeSwitchFailureState extends ThemeState {}
+class ThemeSwitchFailureState extends ThemeState {
+  ThemeSwitchFailureState({required super.themeData});
+}
