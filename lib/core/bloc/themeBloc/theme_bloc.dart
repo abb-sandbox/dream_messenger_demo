@@ -12,12 +12,12 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc(this.localDataService, this.currentTheme)
     : super(ThemeInitialState(themeData: currentTheme)) {
     on<ThemeSwitchEvent>((event, emit) async {
-      emit(ThemeSwitchingState(themeData: currentTheme));
+      // emit(ThemeSwitchingState(themeData: currentTheme));
       if (currentTheme.brightness == Brightness.light) {
-        localDataService.setTheme(true);
+        localDataService.setTheme(dark: true);
         currentTheme = AppTheme.darkTheme;
       } else {
-        localDataService.setTheme(false);
+        localDataService.setTheme(light: true);
         currentTheme = AppTheme.lightTheme;
       }
       emit(ThemeSwitchedState(themeData: currentTheme));
