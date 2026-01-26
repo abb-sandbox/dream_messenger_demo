@@ -15,11 +15,6 @@ Future<void> initDependencies() async {
   sl.registerSingleton<LocalDataService>(
     LocalDataService(asyncPrefs: sl<SharedPreferencesAsync>()),
   );
-
-  sl.registerFactoryAsync(
-    () async => ThemeBloc(
-      sl<LocalDataService>(),
-      await sl<LocalDataService>().getTheme(),
-    ),
-  );
+  final themeData = await sl<LocalDataService>().getTheme();
+  sl.registerFactory(() => ThemeBloc(sl<LocalDataService>(), themeData));
 }
