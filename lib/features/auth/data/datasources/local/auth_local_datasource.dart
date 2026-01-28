@@ -3,14 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/failure/failure.dart';
 
-abstract interface class LocalDataSource {
+abstract interface class AuthLocalDataSource {
   Future<Either<Failure, Unit>> saveEmail(String email);
 }
 
-class LocalDatasourceImpl implements LocalDataSource {
+class AuthLocalDatasourceImpl implements AuthLocalDataSource {
   final SharedPreferencesAsync _asyncPrefs;
 
-  LocalDatasourceImpl({required SharedPreferencesAsync asyncPrefs})
+  AuthLocalDatasourceImpl({required SharedPreferencesAsync asyncPrefs})
     : _asyncPrefs = asyncPrefs;
 
   @override
