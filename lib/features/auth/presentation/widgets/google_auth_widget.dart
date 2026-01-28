@@ -19,7 +19,6 @@ class GoogleAuthWidget extends StatelessWidget {
           padding:  EdgeInsets.symmetric(vertical: size.height*0.02),
           child: Row(
             children: [
-              SizedBox(width: size.width * 0.06),
               Expanded(
                 child: Divider(
                   // endIndent: size.width * 0.02,
@@ -42,7 +41,6 @@ class GoogleAuthWidget extends StatelessWidget {
                   color: theme.colorScheme.surface.withOpacity(0.2),
                 ),
               ),
-              SizedBox(width: size.width * 0.06),
             ],
           ),
         ),
