@@ -15,9 +15,9 @@ Future<void> initDependencies() async {
     options: SharedPreferencesOptions(),
   );
 
-  await initAuthDependencies();
-
   sl.registerSingleton<SharedPreferencesAsync>(asyncPrefs);
+
+  await initAuthDependencies();
 
   sl.registerSingleton<LocalDataService>(
     LocalDataService(asyncPrefs: sl<SharedPreferencesAsync>()),
