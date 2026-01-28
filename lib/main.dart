@@ -1,3 +1,4 @@
+import 'package:dream_messenger_demo/core/routes/app_router.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/bloc/themeBloc/theme_state.dart';
+import 'core/routes/app_routes.dart';
 import 'core/serviceLocator/service_locator.dart';
 
 Future<void> main() async {
@@ -30,6 +32,8 @@ class Home extends StatelessWidget {
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
             child: MaterialApp(
+              initialRoute: AppRoutes.signUp,
+              onGenerateRoute: AppRouter.generateRoute,
               builder: (context, child) {
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -39,7 +43,7 @@ class Home extends StatelessWidget {
               },
               debugShowCheckedModeBanner: false,
               theme: state.themeData,
-              home: SignUpPage(),
+              // home: SignUpPage(),
             ),
           );
         },
