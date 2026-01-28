@@ -54,18 +54,18 @@ class SignUpPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary,
                           borderRadius: BorderRadius.circular(
-                            size.width * 0.04,
+                            size.width * 0.01,
                           ),
                         ),
                         child: Padding(
                           padding: EdgeInsetsGeometry.symmetric(
-                            vertical: size.height * 0.01,
+                            vertical: size.height * 0.008,
                             horizontal: size.width * 0.2,
                           ),
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
-                              fontSize: size.width * 0.06,
+                              fontSize: size.width * 0.05,
                               color: theme.colorScheme.onPrimary,
                             ),
                           ),

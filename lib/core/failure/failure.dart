@@ -1,13 +1,25 @@
 abstract class Failure {
-  String? message;
+  String message;
 
-  Failure({message});
+  Failure({required this.message});
 }
 
-class NetworkFailure extends Failure {
-  NetworkFailure(message) : super(message: message);
+// class FirebaseFailure extends Failure {
+//   FirebaseFailure({required super.message});
+// }
+
+class LocalDataFailure extends Failure {
+  LocalDataFailure({required super.message});
 }
 
-class LocalFailure extends Failure {
-  LocalFailure(message) : super(message: message);
+class RemoteDataFailure extends Failure {
+  RemoteDataFailure({required super.message});
+}
+
+class RepositoryLevelFailure extends Failure {
+  RepositoryLevelFailure({required super.message});
+}
+
+class BlocLevelFailure extends Failure {
+  BlocLevelFailure({required super.message});
 }

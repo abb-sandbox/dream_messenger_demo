@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dream_messenger_demo/core/AppGlobalVariables.dart';
+import 'package:dream_messenger_demo/core/app_global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
