@@ -21,7 +21,7 @@ class VerifyEmailPage extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: Center(child: Text("data"))),
+            Expanded(child: Center(child: Text("Link was sent to ${email}",style: TextStyle(color: Colors.black),))),
           ],
         ),
       ),
