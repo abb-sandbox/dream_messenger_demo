@@ -4,14 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../../../core/failure/failure.dart';
 
-abstract interface class RemoteDataSource {
+abstract interface class AuthRemoteDataSource {
   Future<Either<Failure, Unit>> sendLinkToEmail(String email);
 }
 
-class RemoteDatasourceImpl implements RemoteDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
 
-  RemoteDatasourceImpl({required FirebaseAuth firebaseAuth})
+  AuthRemoteDataSourceImpl({required FirebaseAuth firebaseAuth})
     : _firebaseAuth = firebaseAuth;
 
   @override
