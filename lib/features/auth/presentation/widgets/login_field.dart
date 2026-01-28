@@ -15,16 +15,20 @@ class _LoginFieldState extends State<LoginField> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      // height: size.height * (1 / 16),
+      height: size.height * 0.05,
       child: TextField(
         controller: loginTextController,
         style: TextStyle(color: theme.colorScheme.surface),
         cursorColor: theme.colorScheme.surface,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(
+            vertical: size.height * 0.01,
+            horizontal: size.width * 0.01,
+          ),
           hintText: "E-mail",
           hintStyle: TextStyle(
             fontStyle: FontStyle.italic,
-            color: theme.colorScheme.surface.withOpacity(0.8),
+            color: theme.colorScheme.surface.withOpacity(0.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(

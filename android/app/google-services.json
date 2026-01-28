@@ -12,7 +12,12 @@
           "package_name": "com.example.dream_messenger_demo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "288225221102-uoajkbrthp388qtd8f74oljgt2ioim81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDwh82hLam5-qvvyzW_soOe3AGVBJZalPI"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288225221102-uoajkbrthp388qtd8f74oljgt2ioim81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

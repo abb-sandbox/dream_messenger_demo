@@ -6,20 +6,12 @@ abstract class AppTheme {
     iconTheme: IconThemeData(color: Colors.black),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        overlayColor: WidgetStateProperty.all(
-          Colors.black.withOpacity(0.4),
-        ),
+        overlayColor: WidgetStateProperty.all(Colors.black.withOpacity(0.4)),
         iconColor: WidgetStateProperty.all(Colors.black),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-      // enabledBorder: OutlineInputBorder(),
-      // focusedBorder: OutlineInputBorder(),
-      // outlineBorder: BorderSide(color: Colors.grey.shade800),
-      // focusedErrorBorder: OutlineInputBorder(
-      //   borderSide: BorderSide(color: Colors.red.shade700),
-      // ),
     ),
     colorScheme: ColorScheme(
       brightness: Brightness.light,
@@ -41,21 +33,12 @@ abstract class AppTheme {
     iconTheme: IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        overlayColor: WidgetStateProperty.all(
-          Colors.white.withOpacity(0.4),
-        ),
+        overlayColor: WidgetStateProperty.all(Colors.white.withOpacity(0.4)),
         iconColor: WidgetStateProperty.all(Colors.white),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      // outlineBorder: ,
       border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-      // enabledBorder: OutlineInputBorder(),
-      // focusedBorder: OutlineInputBorder(),
-      // outlineBorder: BorderSide(color: Colors.grey.shade300),
-      // focusedErrorBorder: OutlineInputBorder(
-      //   borderSide: BorderSide(color: Colors.red.shade800),
-      // ),
     ),
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
