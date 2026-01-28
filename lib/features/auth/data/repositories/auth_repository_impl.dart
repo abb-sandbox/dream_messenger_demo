@@ -1,17 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:dream_messenger_demo/core/failure/failure.dart';
-import 'package:dream_messenger_demo/features/auth/data/datasources/remote/remote_datasource.dart';
+import 'package:dream_messenger_demo/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 
-import '../datasources/local/local_datasource.dart';
+import '../datasources/local/auth_local_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final RemoteDataSource _remoteDatasource;
-  final LocalDataSource _localDatasource;
+  final AuthRemoteDataSource _remoteDatasource;
+  final AuthLocalDataSource _localDatasource;
 
   AuthRepositoryImpl({
-    required RemoteDataSource remoteDatasource,
-    required LocalDataSource localDataSource,
+    required AuthRemoteDataSource remoteDatasource,
+    required AuthLocalDataSource localDataSource,
   }) : _remoteDatasource = remoteDatasource,
        _localDatasource = localDataSource;
 
