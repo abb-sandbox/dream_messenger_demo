@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
-class PasswordField extends StatefulWidget {
-  final TextEditingController passwordTextController;
+class EmailField extends StatefulWidget {
+  final TextEditingController emailTextController;
 
-  const PasswordField({super.key, required this.passwordTextController});
+  const EmailField({super.key, required this.emailTextController});
 
   @override
-  State<PasswordField> createState() => _PasswordFieldState();
+  State<EmailField> createState() => _EmailFieldState();
 }
 
-class _PasswordFieldState extends State<PasswordField> {
-  bool passwordObscured = true;
-
+class _EmailFieldState extends State<EmailField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
-
     return TextFormField(
       validator: (value) {
-        if (value == null || value.isEmpty || value.length < 8) {
-          return 'Please enter a valid password';
+        if (value == null || value.isEmpty) {
+          return 'Please enter an email';
         }
-        return null;
+        // The Regex for email validation
+        final bool emailValid = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+        ).hasMatch(value);
+
+        return emailValid ? null : 'Enter a valid email address';
       },
-      controller: widget.passwordTextController,
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: passwordObscured,
+      controller: widget.emailTextController,
       style: TextStyle(color: theme.colorScheme.surface),
       cursorColor: theme.colorScheme.surface,
       decoration: InputDecoration(
@@ -34,19 +34,10 @@ class _PasswordFieldState extends State<PasswordField> {
           vertical: size.height * 0.01,
           horizontal: size.width * 0.01,
         ),
-        suffixIcon: IconButton(
-          onPressed: () => setState(() {
-            passwordObscured = !passwordObscured;
-          }),
-          icon: Icon(
-            passwordObscured ? Icons.visibility_off : Icons.visibility,
-          ),
-        ),
-        hintText: "Password",
+        hintText: "E-mail",
         hintStyle: TextStyle(
           fontStyle: FontStyle.italic,
           color: theme.colorScheme.surface.withOpacity(0.5),
-          fontSize: size.width * 0.04,
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
