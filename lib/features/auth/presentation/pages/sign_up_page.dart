@@ -1,3 +1,6 @@
+import 'package:dream_messenger_demo/core/services/show_snack_bar.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_event.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_state.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/custom_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_field.dart';
@@ -8,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bloc/themeBloc/theme_bloc.dart';
 import '../../../../core/bloc/themeBloc/theme_state.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/serviceLocator/service_locator.dart';
+import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
 import '../widgets/google_auth_widget.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -18,14 +23,29 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController passwordTextController = TextEditingController();
-  TextEditingController emailTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController passwordTextController;
+  late final TextEditingController emailTextController;
+  late final GlobalKey<FormState> _formKey;
+
+  @override
+  initState() {
+    super.initState();
+    passwordTextController = TextEditingController();
+    emailTextController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    passwordTextController.dispose();
+    emailTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final themeBloc = context.read<ThemeBloc>();
+    final verifyEmailBloc = context.read<VerifyEmailBloc>();
     final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
@@ -62,12 +82,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         // SizedBox(height: size.height * 0.02),
                         SizedBox(height: size.height * 0.06),
 
-                        InkWell(
-                          borderRadius: BorderRadius.circular(
-                            size.width * 0.04,
-                          ),
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
+                        BlocConsumer<VerifyEmailBloc, VerifyEmailState>(
+                          listener: (context, state) {
+                            if (state is SendLinkToEmailFailure) {
+                              showSnackBar(context, state.failure);
+                            } else if (state is SendLinkToEmailSuccess) {
                               Navigator.pushNamed(
                                 context,
                                 AppRoutes.verifyEmail,
@@ -75,27 +94,46 @@ class _SignUpPageState extends State<SignUpPage> {
                               );
                             }
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
+                          builder: (context, state) {
+                            if (state is SendingLinkToEmail) {
+                              return CircularProgressIndicator();
+                            }
+                            return InkWell(
                               borderRadius: BorderRadius.circular(
-                                size.width * 0.01,
+                                size.width * 0.04,
                               ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsGeometry.symmetric(
-                                vertical: size.height * 0.008,
-                                horizontal: size.width * 0.2,
-                              ),
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                  fontSize: size.width * 0.05,
-                                  color: theme.colorScheme.onPrimary,
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  verifyEmailBloc.add(
+                                    SendLinkToEmailEvent(
+                                      email: emailTextController.text,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(
+                                    size.width * 0.01,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsGeometry.symmetric(
+                                    vertical: size.height * 0.008,
+                                    horizontal: size.width * 0.2,
+                                  ),
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      fontSize: size.width * 0.05,
+                                      color: theme.colorScheme.onPrimary,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ],
                     ),

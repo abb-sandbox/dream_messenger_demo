@@ -8,6 +8,7 @@ class VerifyEmailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
         body: Column(
@@ -21,7 +22,14 @@ class VerifyEmailPage extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: Center(child: Text("Link was sent to ${email}",style: TextStyle(color: Colors.black),))),
+            Expanded(
+              child: Center(
+                child: Text(
+                  "Link was sent to $email",
+                  style: TextStyle(color: theme.colorScheme.surface),
+                ),
+              ),
+            ),
           ],
         ),
       ),
