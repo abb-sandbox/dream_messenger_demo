@@ -10,4 +10,6 @@ class SendLinkToEmailFailure extends VerifyEmailState {
   SendLinkToEmailFailure({required this.failure});
 }
 
+class SendingLinkToEmail extends VerifyEmailState {}
+
 class SendLinkToEmailSuccess extends VerifyEmailState {}

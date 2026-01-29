@@ -18,7 +18,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, Unit>> sendLinkToEmail(String email) async {
     try {
       final actionCodeSettings = ActionCodeSettings(
-        url: "dream-demo-5afa7.firebaseapp.com",
+        url: "https://dream-demo-5afa7.firebaseapp.com",
         androidInstallApp: true,
         androidPackageName: "com.example.dream_messenger_demo",
         handleCodeInApp: true,
