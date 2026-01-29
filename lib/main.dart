@@ -1,4 +1,5 @@
 import 'package:dream_messenger_demo/core/routes/app_router.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,8 +24,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<ThemeBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
+        BlocProvider<VerifyEmailBloc>(create: (_) => sl<VerifyEmailBloc>()),
+      ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           return AnnotatedRegion<SystemUiOverlayStyle>(

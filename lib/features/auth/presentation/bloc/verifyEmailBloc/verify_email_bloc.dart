@@ -11,6 +11,7 @@ class VerifyEmailBloc extends Bloc<VerifyEmailEvent, VerifyEmailState> {
     : _authRepository = authRepository,
       super(VerifyEmailInitialState()) {
     on<SendLinkToEmailEvent>((event, emit) async {
+      emit(SendingLinkToEmail());
       try {
         final result = await _authRepository.sendLinkToEmail(event.email);
         result.fold(
