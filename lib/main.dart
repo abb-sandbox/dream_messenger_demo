@@ -1,6 +1,5 @@
 import 'package:dream_messenger_demo/core/routes/app_router.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/bloc/themeBloc/theme_state.dart';
+import 'core/dependencyInjection/service_locator.dart';
 import 'core/routes/app_routes.dart';
-import 'core/serviceLocator/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
