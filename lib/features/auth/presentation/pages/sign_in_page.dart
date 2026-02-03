@@ -1,25 +1,25 @@
-import 'package:dream_messenger_demo/core/services/show_snack_bar.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_event.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_state.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/custom_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_field.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/routes/app_routes.dart';
-import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
-import '../widgets/google_auth_widget.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/show_snack_bar.dart';
+import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
+import '../bloc/verifyEmailBloc/verify_email_state.dart';
+import '../widgets/email_field.dart';
+import '../widgets/google_auth_widget.dart';
+import '../widgets/password_field.dart';
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignInPageState extends State<SignInPage> {
   late final TextEditingController passwordTextController;
   late final TextEditingController emailTextController;
   late final GlobalKey<FormState> _formKey;
@@ -42,13 +42,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final verifyEmailBloc = context.read<VerifyEmailBloc>();
     final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CustomAppBar(),
             Expanded(
@@ -74,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         SizedBox(height: size.height * 0.01),
 
-                        GoogleAuthWidget(signIn: false),
+                        GoogleAuthWidget(signIn: true),
 
                         Container(
                           margin: EdgeInsets.symmetric(
@@ -87,16 +85,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                 fontSize: size.width * 0.04,
                               ),
                               children: [
-                                TextSpan(text: "Already have an account? "),
+                                TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () =>
                                         Navigator.pushNamedAndRemoveUntil(
                                           context,
-                                          AppRoutes.signIn,
+                                          AppRoutes.signUp,
                                           (route) => false,
                                         ),
-                                  text: "Sign in",
+                                  text: "Sign up",
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
                                     fontStyle: FontStyle.italic,
@@ -107,18 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
 
-                        BlocConsumer<VerifyEmailBloc, VerifyEmailState>(
-                          listener: (context, state) {
-                            if (state is SendLinkToEmailFailure) {
-                              showSnackBar(context, state.failure);
-                            } else if (state is SendLinkToEmailSuccess) {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.verifyEmail,
-                                arguments: emailTextController.text,
-                              );
-                            }
-                          },
+                        BlocBuilder<VerifyEmailBloc, VerifyEmailState>(
                           builder: (context, state) {
                             if (state is SendingLinkToEmail) {
                               return CircularProgressIndicator();
@@ -129,11 +116,17 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  verifyEmailBloc.add(
-                                    SendLinkToEmailEvent(
-                                      email: emailTextController.text,
-                                    ),
-                                  );
+                                  // Navigator.pushNamedAndRemoveUntil(
+                                  //   context,
+                                  //   AppRoutes.chatListPage,
+                                  //   (route) => false,
+                                  // );
+
+                                  // verifyEmailBloc.add(
+                                  //   SendLinkToEmailEvent(
+                                  //     email: emailTextController.text,
+                                  //   ),
+                                  // );
                                 }
                               },
                               child: Container(
@@ -149,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     horizontal: size.width * 0.2,
                                   ),
                                   child: Text(
-                                    "Sign up",
+                                    "Sign in",
                                     style: TextStyle(
                                       fontSize: size.width * 0.05,
                                       color: theme.colorScheme.onPrimary,
