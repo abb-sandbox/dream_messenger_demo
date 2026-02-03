@@ -17,16 +17,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, Unit>> sendLinkToEmail(String email) async {
     try {
-      final actionCodeSettings = ActionCodeSettings(
-        url: "https://dream-demo-5afa7.firebaseapp.com",
-        androidInstallApp: true,
-        androidPackageName: "com.example.dream_messenger_demo",
-        handleCodeInApp: true,
-      );
-      await _firebaseAuth.sendSignInLinkToEmail(
-        email: email,
-        actionCodeSettings: actionCodeSettings,
-      );
+      throw UnimplementedError();
+      // final actionCodeSettings = ActionCodeSettings(
+      //   url: "https://dream-demo-5afa7.firebaseapp.com",
+      //   androidInstallApp: true,
+      //   androidPackageName: "com.example.dream_messenger_demo",
+      //   handleCodeInApp: true,
+      // );
+      // await _firebaseAuth.sendSignInLinkToEmail(
+      //   email: email,
+      //   actionCodeSettings: actionCodeSettings,
+      // );
       return const Right(unit);
     } catch (err) {
       return Left(RemoteDataFailure(message: err.toString()));

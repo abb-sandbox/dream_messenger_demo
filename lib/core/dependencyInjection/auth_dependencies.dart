@@ -1,4 +1,4 @@
-import 'package:dream_messenger_demo/core/serviceLocator/service_locator.dart';
+import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
 import 'package:dream_messenger_demo/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
