@@ -1,3 +1,3 @@
 # dream_messenger_demo
 
-A new Flutter project.
+A demo version of a mesenger app that encompasses core features of each modern messenger...
