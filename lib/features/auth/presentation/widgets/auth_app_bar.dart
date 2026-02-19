@@ -1,9 +1,7 @@
+import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/bloc/themeBloc/theme_bloc.dart';
-import '../../../../core/bloc/themeBloc/theme_event.dart';
-import '../../../../core/bloc/themeBloc/theme_state.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({super.key});
@@ -15,7 +13,6 @@ class CustomAppBar extends StatelessWidget {
     final themeBloc = context.read<ThemeBloc>();
     return SizedBox(
       height: size.height * 0.1,
-      // color: Colors.green,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -32,7 +29,7 @@ class CustomAppBar extends StatelessWidget {
                           ? Icons.brightness_2_outlined
                           : Icons.wb_sunny_outlined,
                       // color: theme.colorScheme.onPrimary,
-                      size: size.width * 0.08,
+                      size: context.iconSize,
                     );
                   },
                 ),
