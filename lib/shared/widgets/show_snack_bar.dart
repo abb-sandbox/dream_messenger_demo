@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../failure/failure.dart';
+import '../../core/failure/failure.dart';
 
 void showSnackBar(BuildContext context, Failure failure) {
   final snackBar = SnackBar(

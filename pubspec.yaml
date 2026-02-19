@@ -9,14 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^4.4.0
   flutter_bloc: ^9.1.1
   shared_preferences: ^2.5.4
   path_provider: ^2.1.5
   get_it: ^9.2.0
   equatable: ^2.0.8
   flutter_svg: ^2.2.3
-  firebase_auth: ^6.1.4
   app_links: ^7.0.0
   dartz: ^0.10.1
   dio: ^5.9.1
@@ -25,6 +23,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  mocktail: ^1.0.4
+  bloc_test: ^10.0.0
 
 flutter:
   uses-material-design: true
