@@ -46,7 +46,7 @@ class _PasswordFieldState extends State<PasswordField> {
         hintStyle: TextStyle(
           fontStyle: FontStyle.italic,
           color: theme.colorScheme.surface.withOpacity(0.5),
-          fontSize: size.width * 0.04,
+          // fontSize: size.width * 0.04,
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(

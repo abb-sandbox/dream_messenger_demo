@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/bloc/themeBloc/theme_bloc.dart';
-import '../../../../core/bloc/themeBloc/theme_state.dart';
 
 class GoogleAuthWidget extends StatelessWidget {
   final bool signIn;
