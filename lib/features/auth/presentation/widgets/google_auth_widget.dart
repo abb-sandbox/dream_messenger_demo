@@ -1,3 +1,4 @@
+import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,7 +31,7 @@ class GoogleAuthWidget extends StatelessWidget {
                   "or",
                   style: TextStyle(
                     color: theme.colorScheme.surface,
-                    fontSize: size.width * 0.04,
+                    fontSize: context.textSize,
                   ),
                 ),
               ),

@@ -21,7 +21,7 @@ extension ResponsiveHelper on BuildContext {
     return mobile;
   }
 
-  double get iconSize => responsiveValue(25, tablet: 26, desktop: 27);
+  double get iconSize => responsiveValue(20, tablet: 21, desktop: 22);
 
-  double get textSize => responsiveValue(25, tablet: 26, desktop: 27);
+  double get textSize => responsiveValue(15, tablet: 16, desktop: 17);
 }
