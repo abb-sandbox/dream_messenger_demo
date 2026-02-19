@@ -1,3 +1,5 @@
+import 'package:dream_messenger_demo/core/constants.dart';
+import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
@@ -39,26 +41,28 @@ class _PasswordFieldState extends State<PasswordField> {
             passwordObscured = !passwordObscured;
           }),
           icon: Icon(
-            passwordObscured ? Icons.visibility_off : Icons.visibility,
+            passwordObscured ? Icons.visibility_off : Icons.visibility
           ),
+          iconSize: context.iconSize,
         ),
         hintText: "Password",
         hintStyle: TextStyle(
           fontStyle: FontStyle.italic,
           color: theme.colorScheme.surface.withOpacity(0.5),
+          fontSize: context.textSize,
           // fontSize: size.width * 0.04,
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: theme.inputDecorationTheme.border!.borderSide.color,
           ),
-          borderRadius: BorderRadius.circular(size.width * 0.01),
+          borderRadius: BorderRadius.circular(Constants.regularRadius),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: theme.inputDecorationTheme.border!.borderSide.color,
           ),
-          borderRadius: BorderRadius.circular(size.width * 0.01),
+          borderRadius: BorderRadius.circular(Constants.regularRadius),
         ),
       ),
     );
