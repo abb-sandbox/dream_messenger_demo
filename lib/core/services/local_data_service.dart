@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dream_messenger_demo/core/app_global_variables.dart';
+import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +12,7 @@ class LocalDataService {
   LocalDataService({required this.asyncPrefs});
 
   Future<ThemeData> getTheme() async {
-    final result = await asyncPrefs.getString(AppGlobalVariables.themeDataKey);
+    final result = await asyncPrefs.getString(Constants.themeDataKey);
     if (result != null) {
       return result == 'dark' ? AppTheme.darkTheme : AppTheme.lightTheme;
     } else {
@@ -26,7 +26,7 @@ class LocalDataService {
   Future<void> setTheme({bool dark = false, bool light = false}) async {
     if (dark || light) {
       await asyncPrefs.setString(
-        AppGlobalVariables.themeDataKey,
+        Constants.themeDataKey,
         light ? 'light' : 'dark',
       );
     }
