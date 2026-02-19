@@ -8,7 +8,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     final themeBloc = context.read<ThemeBloc>();
     return SizedBox(
@@ -17,7 +16,9 @@ class CustomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.all(16.0),
+            margin: EdgeInsets.only(
+              right: context.responsiveValue(16, tablet: 26, desktop: 34),
+            ),
             child: IconButton(
               onPressed: () => themeBloc.add(ThemeSwitchEvent()),
               icon: Transform.rotate(
@@ -28,8 +29,6 @@ class CustomAppBar extends StatelessWidget {
                       state.themeData.brightness == Brightness.dark
                           ? Icons.brightness_2_outlined
                           : Icons.wb_sunny_outlined,
-                      // color: theme.colorScheme.onPrimary,
-                      size: context.iconSize,
                     );
                   },
                 ),

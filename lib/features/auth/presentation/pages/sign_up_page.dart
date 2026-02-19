@@ -1,3 +1,5 @@
+import 'package:dream_messenger_demo/core/constants.dart';
+import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
@@ -55,8 +57,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Container(
+                    // color: Colors.green,
+                    width: context.responsiveValue(
+                      400,
+                      tablet: 450,
+                      desktop: 500,
+                    ),
                     padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,
+                      horizontal: context.responsiveValue(15),
                     ),
                     child: Column(
                       children: [
@@ -79,10 +87,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             vertical: size.height * 0.06,
                           ),
                           child: RichText(
+                            textAlign: TextAlign.center,
                             text: TextSpan(
                               style: TextStyle(
                                 color: theme.colorScheme.surface,
-                                fontSize: size.width * 0.04,
+                                fontSize: context.textSize,
                               ),
                               children: [
                                 TextSpan(text: "Already have an account? "),
@@ -98,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
                                     fontStyle: FontStyle.italic,
+                                    fontSize: context.textSize,
                                   ),
                                 ),
                               ],
@@ -138,18 +148,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.primary,
                                   borderRadius: BorderRadius.circular(
-                                    size.width * 0.01,
+                                    Constants.regularRadius,
                                   ),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsGeometry.symmetric(
-                                    vertical: size.height * 0.008,
-                                    horizontal: size.width * 0.2,
+                                    vertical: context.responsiveValue(8, tablet: 10,desktop: 12),
+                                    horizontal: context.responsiveValue(50, tablet: 60, desktop: 70),
                                   ),
                                   child: Text(
                                     "Sign up",
                                     style: TextStyle(
-                                      fontSize: size.width * 0.05,
+                                      fontSize: context.textSize,
                                       color: theme.colorScheme.onPrimary,
                                     ),
                                   ),
