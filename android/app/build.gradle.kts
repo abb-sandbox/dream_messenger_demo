@@ -1,29 +1,11 @@
 plugins {
     id("com.android.application")
-    // START: FlutterFire Configuration
-    id("com.google.gms.google-services")
-    // END: FlutterFire Configuration
+
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-dependencies {
-
-    // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
-
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
-    // TODO: Add the dependencies for Firebase products you want to use
-    // See https://firebase.google.com/docs/android/setup#available-libraries
-    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-
-    // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:21.5.0")
-}
 android {
     namespace = "com.example.dream_messenger_demo"
     compileSdk = flutter.compileSdkVersion

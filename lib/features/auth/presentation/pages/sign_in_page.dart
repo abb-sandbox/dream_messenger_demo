@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/routes/app_routes.dart';
-import '../../../../core/services/show_snack_bar.dart';
+import '../../../../shared/widgets/show_snack_bar.dart';
 import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
 import '../bloc/verifyEmailBloc/verify_email_state.dart';
 import '../widgets/email_field.dart';
