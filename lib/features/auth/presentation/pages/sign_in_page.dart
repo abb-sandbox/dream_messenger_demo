@@ -1,4 +1,4 @@
-import 'package:dream_messenger_demo/features/auth/presentation/widgets/custom_app_bar.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

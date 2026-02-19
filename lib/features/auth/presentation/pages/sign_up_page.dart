@@ -1,7 +1,5 @@
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_event.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_state.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/widgets/custom_app_bar.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_field.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
