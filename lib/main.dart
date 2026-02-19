@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/bloc/themeBloc/theme_bloc.dart';
-import 'core/bloc/themeBloc/theme_state.dart';
 import 'core/dependencyInjection/service_locator.dart';
 import 'core/routes/app_routes.dart';
 
