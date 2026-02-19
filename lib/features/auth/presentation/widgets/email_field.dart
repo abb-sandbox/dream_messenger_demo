@@ -1,3 +1,4 @@
+import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:flutter/material.dart';
 
 class EmailField extends StatefulWidget {
@@ -43,13 +44,13 @@ class _EmailFieldState extends State<EmailField> {
           borderSide: BorderSide(
             color: theme.inputDecorationTheme.border!.borderSide.color,
           ),
-          borderRadius: BorderRadius.circular(size.width * 0.01),
+          borderRadius: BorderRadius.circular(Constants.regularRadius),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: theme.inputDecorationTheme.border!.borderSide.color,
           ),
-          borderRadius: BorderRadius.circular(size.width * 0.01),
+          borderRadius: BorderRadius.circular(Constants.regularRadius),
         ),
       ),
     );
