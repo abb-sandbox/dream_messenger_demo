@@ -92,12 +92,12 @@ class _SignInPageState extends State<SignInPage> {
                                 TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () =>
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          AppRoutes.signUp,
-                                          (route) => false,
-                                        ),
+                                    ..onTap = () =>Navigator.pop(context),
+                                        // Navigator.pushNamedAndRemoveUntil(
+                                        //   context,
+                                        //   AppRoutes.signUp,
+                                        //   (route) => false,
+                                        // ),
                                   text: "Sign up",
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
