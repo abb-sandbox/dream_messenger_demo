@@ -3,11 +3,10 @@ import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_c
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../core/constants.dart';
 import '../../../../core/routes/app_routes.dart';
-import '../../../../shared/widgets/show_snack_bar.dart';
+import '../../../../core/utils/responsive_helper.dart';
 import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
-import '../bloc/verifyEmailBloc/verify_email_state.dart';
 import '../widgets/email_field.dart';
 import '../widgets/google_auth_widget.dart';
 import '../widgets/password_field.dart';
@@ -55,8 +54,13 @@ class _SignInPageState extends State<SignInPage> {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Container(
+                    width: context.responsiveValue(
+                      400,
+                      tablet: 450,
+                      desktop: 500,
+                    ),
                     padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,
+                      horizontal: context.responsiveValue(15),
                     ),
                     child: Column(
                       children: [
@@ -82,7 +86,7 @@ class _SignInPageState extends State<SignInPage> {
                             text: TextSpan(
                               style: TextStyle(
                                 color: theme.colorScheme.surface,
-                                fontSize: size.width * 0.04,
+                                fontSize: context.textSize,
                               ),
                               children: [
                                 TextSpan(text: "Don't have an account? "),
@@ -98,6 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
                                     fontStyle: FontStyle.italic,
+                                    fontSize: context.textSize,
                                   ),
                                 ),
                               ],
@@ -112,7 +117,7 @@ class _SignInPageState extends State<SignInPage> {
                             }
                             return InkWell(
                               borderRadius: BorderRadius.circular(
-                                size.width * 0.04,
+                                Constants.regularRadius,
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
@@ -133,18 +138,18 @@ class _SignInPageState extends State<SignInPage> {
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.primary,
                                   borderRadius: BorderRadius.circular(
-                                    size.width * 0.01,
+                                    Constants.regularRadius,
                                   ),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsGeometry.symmetric(
-                                    vertical: size.height * 0.008,
-                                    horizontal: size.width * 0.2,
+                                    vertical: context.responsiveValue(8, tablet: 10,desktop: 12),
+                                    horizontal: context.responsiveValue(50, tablet: 60, desktop: 70),
                                   ),
                                   child: Text(
                                     "Sign in",
                                     style: TextStyle(
-                                      fontSize: size.width * 0.05,
+                                      fontSize: context.textSize,
                                       color: theme.colorScheme.onPrimary,
                                     ),
                                   ),
