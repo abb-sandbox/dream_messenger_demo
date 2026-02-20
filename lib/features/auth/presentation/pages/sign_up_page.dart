@@ -120,10 +120,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             if (state is SendVerifyDataFailure) {
                               showSnackBar(context, state.failure);
                             } else if (state is SendVerifyDataSuccess) {
-                              Navigator.pushNamed(
+                              Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 AppRoutes.chatList,
                                 arguments: emailTextController.text,
+                                (route) => false,
                               );
                             }
                           },
