@@ -133,7 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             }
                             return InkWell(
                               borderRadius: BorderRadius.circular(
-                                size.width * 0.04,
+                                Constants.regularRadius,
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
