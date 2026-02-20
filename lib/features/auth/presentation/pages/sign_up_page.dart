@@ -101,7 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Navigator.pushNamedAndRemoveUntil(
                                           context,
                                           AppRoutes.signIn,
-                                          (route) => false,
+                                          (route) => true,
                                         ),
                                   text: "Sign in",
                                   style: TextStyle(
