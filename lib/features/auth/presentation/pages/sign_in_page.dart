@@ -121,10 +121,11 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.pushNamed(
+                                  Navigator.pushNamedAndRemoveUntil(
                                     context,
                                     AppRoutes.chatList,
                                     arguments: emailTextController.text,
+                                    (route) => false,
                                   );
 
                                   // verifyEmailBloc.add(
