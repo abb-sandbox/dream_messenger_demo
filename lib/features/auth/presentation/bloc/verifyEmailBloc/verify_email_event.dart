@@ -1,7 +1,8 @@
 abstract class VerifyEmailEvent {}
 
-class SendLinkToEmailEvent extends VerifyEmailEvent {
+class SendVerifyDataEvent extends VerifyEmailEvent {
   final String email;
+  final String password;
 
-  SendLinkToEmailEvent({required this.email});
+  SendVerifyDataEvent({required this.email, required this.password});
 }

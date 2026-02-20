@@ -11,22 +11,25 @@ class VerifyEmailBloc extends Bloc<VerifyEmailEvent, VerifyEmailState> {
 
   VerifyEmailBloc({required this.verifyEmailUseCase})
     : super(VerifyEmailInitialState()) {
-    on<SendLinkToEmailEvent>((event, emit) async {
-      emit(SendingLinkToEmail());
+    on<SendVerifyDataEvent>((event, emit) async {
+      emit(SendingVerifyData());
       try {
-        final params = VerifyEmailUseCaseParams(email: event.email);
+        final params = VerifyEmailUseCaseParams(
+          email: event.email,
+          password: event.password,
+        );
         final result = await verifyEmailUseCase.call(params);
         result.fold(
           (failure) {
-            emit(SendLinkToEmailFailure(failure: failure));
+            emit(SendVerifyDataFailure(failure: failure));
           },
           (_) {
-            emit(SendLinkToEmailSuccess());
+            emit(SendVerifyDataSuccess());
           },
         );
       } catch (err) {
         emit(
-          SendLinkToEmailFailure(
+          SendVerifyDataFailure(
             failure: BlocLevelFailure(message: err.toString()),
           ),
         );

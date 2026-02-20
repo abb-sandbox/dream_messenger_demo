@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
 import 'package:dream_messenger_demo/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
@@ -9,7 +10,9 @@ import 'data/datasources/local/auth_local_datasource.dart';
 import 'data/datasources/remote/auth_remote_datasource.dart';
 
 Future<void> initAuthDependencies() async {
-  sl.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl());
+  sl.registerSingleton<AuthRemoteDataSource>(
+    AuthRemoteDataSourceImpl(dio: sl<Dio>()),
+  );
 
   sl.registerSingleton<AuthLocalDataSource>(
     AuthLocalDatasourceImpl(asyncPrefs: sl<SharedPreferencesAsync>()),
