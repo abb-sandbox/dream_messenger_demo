@@ -92,12 +92,12 @@ class _SignInPageState extends State<SignInPage> {
                                 TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () =>Navigator.pop(context),
-                                        // Navigator.pushNamedAndRemoveUntil(
-                                        //   context,
-                                        //   AppRoutes.signUp,
-                                        //   (route) => false,
-                                        // ),
+                                    ..onTap = () => Navigator.pop(context),
+                                  // Navigator.pushNamedAndRemoveUntil(
+                                  //   context,
+                                  //   AppRoutes.signUp,
+                                  //   (route) => false,
+                                  // ),
                                   text: "Sign up",
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
@@ -112,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
 
                         BlocBuilder<VerifyEmailBloc, VerifyEmailState>(
                           builder: (context, state) {
-                            if (state is SendingLinkToEmail) {
+                            if (state is SendingVerifyData) {
                               return CircularProgressIndicator();
                             }
                             return InkWell(
@@ -121,11 +121,11 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // Navigator.pushNamedAndRemoveUntil(
-                                  //   context,
-                                  //   AppRoutes.chatListPage,
-                                  //   (route) => false,
-                                  // );
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.chatList,
+                                    arguments: emailTextController.text,
+                                  );
 
                                   // verifyEmailBloc.add(
                                   //   SendLinkToEmailEvent(
@@ -143,8 +143,16 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsGeometry.symmetric(
-                                    vertical: context.responsiveValue(8, tablet: 10,desktop: 12),
-                                    horizontal: context.responsiveValue(50, tablet: 60, desktop: 70),
+                                    vertical: context.responsiveValue(
+                                      8,
+                                      tablet: 10,
+                                      desktop: 12,
+                                    ),
+                                    horizontal: context.responsiveValue(
+                                      50,
+                                      tablet: 60,
+                                      desktop: 70,
+                                    ),
                                   ),
                                   child: Text(
                                     "Sign in",

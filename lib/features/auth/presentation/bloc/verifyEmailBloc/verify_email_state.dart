@@ -4,12 +4,12 @@ abstract class VerifyEmailState {}
 
 class VerifyEmailInitialState extends VerifyEmailState {}
 
-class SendLinkToEmailFailure extends VerifyEmailState {
+class SendVerifyDataFailure extends VerifyEmailState {
   final Failure failure;
 
-  SendLinkToEmailFailure({required this.failure});
+  SendVerifyDataFailure({required this.failure});
 }
 
-class SendingLinkToEmail extends VerifyEmailState {}
+class SendingVerifyData extends VerifyEmailState {}
 
-class SendLinkToEmailSuccess extends VerifyEmailState {}
+class SendVerifyDataSuccess extends VerifyEmailState {}

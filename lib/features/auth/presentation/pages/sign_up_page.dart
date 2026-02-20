@@ -117,18 +117,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         BlocConsumer<VerifyEmailBloc, VerifyEmailState>(
                           listener: (context, state) {
-                            if (state is SendLinkToEmailFailure) {
+                            if (state is SendVerifyDataFailure) {
                               showSnackBar(context, state.failure);
-                            } else if (state is SendLinkToEmailSuccess) {
+                            } else if (state is SendVerifyDataSuccess) {
                               Navigator.pushNamed(
                                 context,
-                                AppRoutes.verifyEmail,
+                                AppRoutes.chatList,
                                 arguments: emailTextController.text,
                               );
                             }
                           },
                           builder: (context, state) {
-                            if (state is SendingLinkToEmail) {
+                            if (state is SendingVerifyData) {
                               return CircularProgressIndicator();
                             }
                             return InkWell(
@@ -138,8 +138,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
                                   verifyEmailBloc.add(
-                                    SendLinkToEmailEvent(
+                                    SendVerifyDataEvent(
                                       email: emailTextController.text,
+                                      password: passwordTextController.text,
                                     ),
                                   );
                                 }
@@ -153,8 +154,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsGeometry.symmetric(
-                                    vertical: context.responsiveValue(8, tablet: 10,desktop: 12),
-                                    horizontal: context.responsiveValue(50, tablet: 60, desktop: 70),
+                                    vertical: context.responsiveValue(
+                                      8,
+                                      tablet: 10,
+                                      desktop: 12,
+                                    ),
+                                    horizontal: context.responsiveValue(
+                                      50,
+                                      tablet: 60,
+                                      desktop: 70,
+                                    ),
                                   ),
                                   child: Text(
                                     "Sign up",

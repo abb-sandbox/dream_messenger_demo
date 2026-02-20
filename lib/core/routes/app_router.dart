@@ -1,6 +1,7 @@
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/verify_email_page.dart';
+import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:flutter/material.dart';
 
 import 'app_routes.dart';
@@ -16,6 +17,9 @@ class AppRouter {
       case AppRoutes.verifyEmail:
         final args = settings.arguments as String?;
         return MaterialPageRoute(builder: (_) => VerifyEmailPage(email: args!));
+      case AppRoutes.chatList:
+        final args = settings.arguments as String?;
+        return MaterialPageRoute(builder: (_) => ChatListPage(email: args!));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

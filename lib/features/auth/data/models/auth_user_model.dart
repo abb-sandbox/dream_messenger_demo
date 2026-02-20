@@ -9,7 +9,10 @@ class AuthUserModel extends AuthUserEntity with EquatableMixin {
   });
 
   Map<String, dynamic> toJson() {
-    return {"email": email, "password": password, "token": token};
+    return {
+      "email": email, "password": password,
+      // "token": token
+    };
   }
 
   factory AuthUserModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +21,10 @@ class AuthUserModel extends AuthUserEntity with EquatableMixin {
       password: json["password"],
       token: json["token"],
     );
+  }
+
+  factory AuthUserModel.fromEntity(AuthUserEntity e) {
+    return AuthUserModel(email: e.email, password: e.password, token: e.token);
   }
 
   @override

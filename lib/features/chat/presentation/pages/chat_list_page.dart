@@ -1,19 +1,24 @@
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:flutter/material.dart';
 
 class ChatListPage extends StatelessWidget {
-  const ChatListPage({super.key});
+  final String email;
+
+  const ChatListPage({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenCoverage(
-      child: SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: Text(
-              "You are on the chat lists page!",
-              style: TextStyle(fontSize: context.textSize),
+    final theme = Theme.of(context);
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(backgroundColor: theme.scaffoldBackgroundColor),
+        body: Center(
+          child: Text(
+            "You are on the chat lists page $email!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: context.textSize,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
         ),
