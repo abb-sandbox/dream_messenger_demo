@@ -1,4 +1,5 @@
 import 'package:dream_messenger_demo/core/routes/app_router.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,7 @@ class Home extends StatelessWidget {
       providers: [
         BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
         BlocProvider<VerifyEmailBloc>(create: (_) => sl<VerifyEmailBloc>()),
+        BlocProvider<SignInBloc>(create: (_) => sl<SignInBloc>()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {

@@ -18,6 +18,12 @@
 **/windows/flutter/generated_plugin_registrant.h
 
 
+# Linux generated files
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugins.cmake
+**/linux/flutter/generated_plugin_registrant.h
+
+
 # Windows/Linux Build Folders
 /windows/flutter/ephemeral/
 /linux/flutter/ephemeral/
@@ -27,6 +33,15 @@
 CMakeSettings.json
 Visual.Config
 .vs/
+
+# Better Desktop generated file coverage
+**/linux/flutter/generated_*/
+**/windows/flutter/generated_*/
+**/macos/Flutter/Generated*/
+
+# Just in case, ignore the whole build directory at the root
+build/
+
 
 # -------------------------------------------------------------------------
 # Android (Kotlin DSL & Gradle)

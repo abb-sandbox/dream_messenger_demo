@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:dream_messenger_demo/features/auth/domain/entities/sign_in_success_entity.dart';
 
 import '../../../../core/failure/failure.dart';
 
 abstract interface class AuthRepository {
   Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserEntity entity);
+
+  Future<Either<Failure, Unit>> signIn(AuthUserEntity entity);
 }
