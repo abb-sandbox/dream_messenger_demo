@@ -7,7 +7,6 @@ import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_fi
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
 import '../widgets/google_auth_widget.dart';
