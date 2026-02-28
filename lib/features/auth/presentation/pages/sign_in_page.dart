@@ -1,12 +1,12 @@
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
+import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/responsive_helper.dart';
-import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
 import '../widgets/email_field.dart';
 import '../widgets/google_auth_widget.dart';
 import '../widgets/password_field.dart';
@@ -42,6 +42,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
+    final signInBloc = context.read<SignInBloc>();
     return ScreenCoverage(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -110,29 +111,33 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
 
-                        BlocBuilder<VerifyEmailBloc, VerifyEmailState>(
-                          builder: (context, state) {
-                            if (state is SendingVerifyData) {
-                              return CircularProgressIndicator();
+                        BlocConsumer<SignInBloc, SignInState>(
+                          listener: (context, state) {
+                            if (state is SignInSuccessState) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRoutes.chatList,
+                                arguments: emailTextController.text,
+                                (route) => false,
+                              );
+                            } else if (state is SignInFailedState) {
+                              showSnackBar(context, state.failure);
                             }
+                          },
+                          builder: (context, state) {
                             return InkWell(
                               borderRadius: BorderRadius.circular(
                                 Constants.regularRadius,
                               ),
                               onTap: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    AppRoutes.chatList,
-                                    arguments: emailTextController.text,
-                                    (route) => false,
+                                if (_formKey.currentState!.validate() &&
+                                    state is! SignInLoadingState) {
+                                  signInBloc.add(
+                                    SignInBtnClicked(
+                                      email: emailTextController.text,
+                                      password: passwordTextController.text,
+                                    ),
                                   );
-
-                                  // verifyEmailBloc.add(
-                                  //   SendLinkToEmailEvent(
-                                  //     email: emailTextController.text,
-                                  //   ),
-                                  // );
                                 }
                               },
                               child: Container(
@@ -155,13 +160,18 @@ class _SignInPageState extends State<SignInPage> {
                                       desktop: 70,
                                     ),
                                   ),
-                                  child: Text(
-                                    "Sign in",
-                                    style: TextStyle(
-                                      fontSize: context.textSize,
-                                      color: theme.colorScheme.onPrimary,
-                                    ),
-                                  ),
+                                  child: state is SignInLoadingState
+                                      ? CircularProgressIndicator(
+                                          backgroundColor:
+                                              theme.colorScheme.onPrimary,
+                                        )
+                                      : Text(
+                                          "Sign in",
+                                          style: TextStyle(
+                                            fontSize: context.textSize,
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        ),
                                 ),
                               ),
                             );
