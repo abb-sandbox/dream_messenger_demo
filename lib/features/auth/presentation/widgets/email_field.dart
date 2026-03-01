@@ -38,7 +38,7 @@ class _EmailFieldState extends State<EmailField> {
         hintText: "E-mail",
         hintStyle: TextStyle(
           fontStyle: FontStyle.italic,
-          color: theme.colorScheme.surface.withOpacity(0.5),
+          color: theme.colorScheme.surface.withValues(alpha: 0.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(

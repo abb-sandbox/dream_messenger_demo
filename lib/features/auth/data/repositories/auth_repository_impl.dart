@@ -3,7 +3,6 @@ import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:dream_messenger_demo/features/auth/data/models/auth_user_model.dart';
 import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
-import 'package:dream_messenger_demo/features/auth/domain/entities/sign_in_success_entity.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 
 import '../datasources/local/auth_local_datasource.dart';
