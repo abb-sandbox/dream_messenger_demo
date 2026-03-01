@@ -6,7 +6,7 @@ abstract class AppTheme {
     iconTheme: IconThemeData(color: Colors.black),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        overlayColor: WidgetStateProperty.all(Colors.black.withOpacity(0.4)),
+        overlayColor: WidgetStateProperty.all(Colors.black.withValues(alpha: 0.5)),
         iconColor: WidgetStateProperty.all(Colors.black),
       ),
     ),
@@ -33,7 +33,7 @@ abstract class AppTheme {
     iconTheme: IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        overlayColor: WidgetStateProperty.all(Colors.white.withOpacity(0.4)),
+        overlayColor: WidgetStateProperty.all(Colors.white.withValues(alpha: 0.5)),
         iconColor: WidgetStateProperty.all(Colors.white),
       ),
     ),

@@ -9,7 +9,7 @@ class ScreenCoverage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      color: theme.scaffoldBackgroundColor.withOpacity(0.8),
+      color: theme.scaffoldBackgroundColor.withValues(alpha: 0.5),
       child: SafeArea(child: child),
     );
   }
