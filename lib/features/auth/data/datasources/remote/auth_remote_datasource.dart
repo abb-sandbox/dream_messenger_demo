@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -43,9 +42,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         "/api/v1/auth/login",
         data: model.toJson(),
       );
-      print(response.statusCode);
-      print(response.data);
-      print(response.data.runtimeType);
       if (response.statusCode == 200) {
         final model = SignInSuccessModel.fromJson(response.data);
         return Right(model);
