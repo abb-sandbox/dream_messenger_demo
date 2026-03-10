@@ -7,4 +7,5 @@ abstract class Constants {
 
   static final accessTokenKey = "accessTokenKey";
   static final refreshTokenKey = "refreshTokenKey";
+  static final emailKey = "emailKey";
 }
