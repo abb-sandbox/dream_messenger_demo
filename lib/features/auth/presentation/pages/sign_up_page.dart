@@ -1,5 +1,6 @@
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
@@ -42,6 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final verifyEmailBloc = context.read<VerifyEmailBloc>();
+    final signUpBloc = context.read<SignUpBloc>();
     final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
@@ -114,21 +116,21 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
 
-                        BlocConsumer<VerifyEmailBloc, VerifyEmailState>(
+                        BlocConsumer<SignUpBloc, SignUpState>(
                           listener: (context, state) {
-                            if (state is SendVerifyDataFailure) {
+                            if (state is SignUpFailureState) {
                               showSnackBar(context, state.failure);
-                            } else if (state is SendVerifyDataSuccess) {
+                            } else if (state is SignUpSuccessState) {
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 AppRoutes.chatList,
-                                arguments: emailTextController.text,
+                                arguments: emailTextController.text.trim(),
                                 (route) => false,
                               );
                             }
                           },
                           builder: (context, state) {
-                            if (state is SendingVerifyData) {
+                            if (state is SignUpLoadingState) {
                               return CircularProgressIndicator();
                             }
                             return InkWell(
@@ -137,10 +139,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  verifyEmailBloc.add(
-                                    SendVerifyDataEvent(
-                                      email: emailTextController.text,
-                                      password: passwordTextController.text,
+                                  // verifyEmailBloc.add(
+                                  //   SendVerifyDataEvent(
+                                  //     email: emailTextController.text.trim(),
+                                  //     password: passwordTextController.text.trim(),
+                                  //   ),
+                                  // );
+
+                                  signUpBloc.add(
+                                    SignUpBtnClicked(
+                                      email: emailTextController.text.trim(),
+                                      password: passwordTextController.text
+                                          .trim(),
                                     ),
                                   );
                                 }
