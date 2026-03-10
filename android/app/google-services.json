@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "250597604216",
+    "project_id": "dream-demo-78152",
+    "storage_bucket": "dream-demo-78152.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250597604216:android:082aafc311b7292066268d",
+        "android_client_info": {
+          "package_name": "com.example.dream_messenger_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpws33cS4_KBvxpxJJD9KRN-04S0LqfQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

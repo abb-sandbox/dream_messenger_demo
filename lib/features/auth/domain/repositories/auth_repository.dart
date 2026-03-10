@@ -6,5 +6,7 @@ import '../../../../core/failure/failure.dart';
 abstract interface class AuthRepository {
   Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserEntity entity);
 
+  Future<Either<Failure, Unit>> signUp(AuthUserEntity entity);
+
   Future<Either<Failure, Unit>> signIn(AuthUserEntity entity);
 }
