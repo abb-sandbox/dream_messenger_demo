@@ -35,9 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signIn(
-    AuthUserEntity entity,
-  ) async {
+  Future<Either<Failure, Unit>> signIn(AuthUserEntity entity) async {
     try {
       final model = AuthUserModel.fromEntity(entity);
       final remoteResult = await _remoteDatasource.signIn(model);
@@ -46,12 +44,29 @@ class AuthRepositoryImpl implements AuthRepository {
         final localResult = await _localDatasource.saveSignInCredentials(
           success.accessToken,
           success.refreshToken,
-          model.email
+          model.email,
         );
-        return localResult.fold(
-          (failure) => Left(failure),
-          (_) => Right(unit),
-        );
+        return localResult.fold((failure) => Left(failure), (_) => Right(unit));
+      });
+    } catch (err) {
+      return Left(RepositoryLevelFailure(message: err.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signUp(AuthUserEntity entity) async {
+    try {
+      final model = AuthUserModel.fromEntity(entity);
+      final remoteResult = await _remoteDatasource.signUp(model);
+      return remoteResult.fold((failure) => Left(failure), (success) async {
+        if (success.token != null && success.accessToken != null) {
+          final localResult = await _localDatasource.saveSignUpCredentials(
+            success.accessToken!,
+            success.token!,
+          );
+          return localResult;
+        }
+        return Right(unit);
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));
