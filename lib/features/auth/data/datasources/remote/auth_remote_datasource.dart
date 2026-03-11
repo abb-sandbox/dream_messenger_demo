@@ -42,7 +42,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     AuthUserModel model,
   ) async {
     try {
-      final response = await dio.post(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: model.email,
+        password: model.password,
+      );
+      print(credential.credential);
+      if (credential.credential != null) {
+        return Right(
+          SignInSuccessModel(
+            accessToken: credential.credential!.accessToken!,
+            token: credential.credential!.token!,
+          ),
+        );
+      }
+      return Right(
+        SignInSuccessModel(
+          accessToken: "None",
+          token: 0,
+        ),
+      );
+      /*final response = await dio.post(
         "/api/v1/auth/login",
         data: model.toJson(),
       );
@@ -53,7 +72,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Left(
           RemoteDataFailure(message: response.statusMessage.toString()),
         );
-      }
+      } */
+    } on FirebaseAuthException catch (err) {
+      return Left(RemoteDataFailure(message: "${err.code} | ${err.message}"));
     } catch (err) {
       return Left(RemoteDataFailure(message: err.toString()));
     }
