@@ -43,7 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return remoteResult.fold((f) => Left(f), (success) async {
         final localResult = await _localDatasource.saveSignInCredentials(
           success.accessToken,
-          success.refreshToken,
+          success.token,
           model.email,
         );
         return localResult.fold((failure) => Left(failure), (_) => Right(unit));

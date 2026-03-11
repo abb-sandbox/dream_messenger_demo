@@ -9,7 +9,7 @@ abstract interface class AuthLocalDataSource {
 
   Future<Either<Failure, Unit>> saveSignInCredentials(
     String accessToken,
-    String refreshToken,
+    int token,
     String email,
   );
 
@@ -38,13 +38,13 @@ class AuthLocalDatasourceImpl implements AuthLocalDataSource {
   @override
   Future<Either<Failure, Unit>> saveSignInCredentials(
     String accessToken,
-    String refreshToken,
+    int token,
     String email,
   ) async {
     try {
-      await _asyncPrefs.setString(Constants.accessTokenKey, accessToken);
-      await _asyncPrefs.setString(Constants.refreshTokenKey, refreshToken);
-      await _asyncPrefs.setString(Constants.emailKey, refreshToken);
+      await _asyncPrefs.setString(Constants.firebaseAccessTokenKey, accessToken);
+      await _asyncPrefs.setInt(Constants.firebaseTokenKey, token);
+      await _asyncPrefs.setString(Constants.emailKey, email);
       return Right(unit);
     } catch (err) {
       return Left(LocalDataFailure(message: err.toString()));

@@ -125,13 +125,17 @@ class _SignInPageState extends State<SignInPage> {
                             }
                           },
                           builder: (context, state) {
+                            if (state is SignInLoadingState) {
+                              return CircularProgressIndicator(
+                                color: theme.colorScheme.surface,
+                              );
+                            }
                             return InkWell(
                               borderRadius: BorderRadius.circular(
                                 Constants.regularRadius,
                               ),
                               onTap: () {
-                                if (_formKey.currentState!.validate() &&
-                                    state is! SignInLoadingState) {
+                                if (_formKey.currentState!.validate()) {
                                   signInBloc.add(
                                     SignInBtnClicked(
                                       email: emailTextController.text,
@@ -160,18 +164,13 @@ class _SignInPageState extends State<SignInPage> {
                                       desktop: 70,
                                     ),
                                   ),
-                                  child: state is SignInLoadingState
-                                      ? CircularProgressIndicator(
-                                          backgroundColor:
-                                              theme.colorScheme.onPrimary,
-                                        )
-                                      : Text(
-                                          "Sign in",
-                                          style: TextStyle(
-                                            fontSize: context.textSize,
-                                            color: theme.colorScheme.onPrimary,
-                                          ),
-                                        ),
+                                  child: Text(
+                                    "Sign in",
+                                    style: TextStyle(
+                                      fontSize: context.textSize,
+                                      color: theme.colorScheme.onPrimary,
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
