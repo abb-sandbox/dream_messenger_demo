@@ -75,6 +75,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           accessToken: credential.credential?.accessToken,
         ),
       );
+    } on FirebaseAuthException catch (err) {
+      return Left(RemoteDataFailure(message: "${err.code} | ${err.message}"));
     } catch (err) {
       return Left(RemoteDataFailure(message: err.toString()));
     }
