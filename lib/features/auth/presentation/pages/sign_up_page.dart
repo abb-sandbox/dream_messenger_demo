@@ -1,6 +1,7 @@
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
@@ -8,7 +9,7 @@ import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_fi
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/routes/app_routes.dart';
+import '../../../chat/presentation/pages/chat_list_page.dart';
 import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
 import '../widgets/google_auth_widget.dart';
 
@@ -99,9 +100,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () =>
-                                        Navigator.pushNamedAndRemoveUntil(
+                                        Navigator.pushAndRemoveUntil(
                                           context,
-                                          AppRoutes.signIn,
+                                          MaterialPageRoute(
+                                            builder: (context) => SignInPage(),
+                                          ),
                                           (route) => true,
                                         ),
                                   text: "Sign in",
@@ -121,10 +124,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             if (state is SignUpFailureState) {
                               showSnackBar(context, state.failure);
                             } else if (state is SignUpSuccessState) {
-                              Navigator.pushNamedAndRemoveUntil(
+                              Navigator.pushAndRemoveUntil(
                                 context,
-                                AppRoutes.chatList,
-                                arguments: emailTextController.text.trim(),
+                                MaterialPageRoute(
+                                  builder: (context) => ChatListPage(
+                                    email: emailTextController.text.trim(),
+                                  ),
+                                ),
                                 (route) => false,
                               );
                             }
