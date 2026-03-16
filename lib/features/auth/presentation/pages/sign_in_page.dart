@@ -1,11 +1,11 @@
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
+import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants.dart';
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/responsive_helper.dart';
 import '../widgets/email_field.dart';
 import '../widgets/google_auth_widget.dart';
@@ -114,10 +114,13 @@ class _SignInPageState extends State<SignInPage> {
                         BlocConsumer<SignInBloc, SignInState>(
                           listener: (context, state) {
                             if (state is SignInSuccessState) {
-                              Navigator.pushNamedAndRemoveUntil(
+                              Navigator.pushAndRemoveUntil(
                                 context,
-                                AppRoutes.chatList,
-                                arguments: emailTextController.text,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatListPage(
+                                    email: emailTextController.text.trim(),
+                                  ),
+                                ),
                                 (route) => false,
                               );
                             } else if (state is SignInFailedState) {
