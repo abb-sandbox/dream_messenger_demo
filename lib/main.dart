@@ -2,12 +2,14 @@ import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/dependencyInjection/service_locator.dart';
+import 'core/services/auth_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,18 +36,31 @@ class Home extends StatelessWidget {
             value: state.themeData.brightness == Brightness.dark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
-            child: MaterialApp(
-              home: SignUpPage(),
-              builder: (context, child) {
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                  child: child,
-                );
+            child: FutureBuilder<bool>(
+              future: sl<AuthService>().isUserSignedIn(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final signedIn = snapshot.data!;
+                  Widget routePage = SignUpPage();
+                  if (signedIn) {
+                    routePage = ChatListPage(
+                      email: sl<AuthService>().userEmail!,
+                    );
+                  }
+                  return MaterialApp(
+                    home: routePage,
+                    builder: (context, child) {
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () =>
+                            FocusManager.instance.primaryFocus?.unfocus(),
+                        child: child,
+                      );
+                    },
+                  );
+                }
+                return Center(child: const CircularProgressIndicator());
               },
-              debugShowCheckedModeBanner: false,
-              theme: state.themeData,
-              // home: SignUpPage(),
             ),
           );
         },
