@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
+import 'package:dream_messenger_demo/core/services/auth_service.dart';
 import 'package:dream_messenger_demo/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/auth/domain/usecases/sign_in_usecase.dart';
@@ -39,4 +40,6 @@ Future<void> initAuthDependencies() async {
   sl.registerFactory<SignInBloc>(() => SignInBloc(signInUseCase: sl()));
 
   sl.registerFactory<SignUpBloc>(() => SignUpBloc(signUpUseCase: sl()));
+
+  sl.registerSingleton<AuthService>(AuthService());
 }
