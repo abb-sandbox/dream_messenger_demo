@@ -28,9 +28,9 @@ class ChatListPage extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Tick",
+                      email,
                       style: TextStyle(
-                        color: theme.colorScheme.surface,
+                        color: theme.colorScheme.onSurface,
                         fontSize: context.responsiveValue(
                           22,
                           tablet: 24,
