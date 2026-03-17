@@ -1,6 +1,5 @@
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
-import 'package:dream_messenger_demo/core/services/local_data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
