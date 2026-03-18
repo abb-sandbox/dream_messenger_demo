@@ -63,6 +63,7 @@ class AuthRepositoryImpl implements AuthRepository {
           final localResult = await _localDatasource.saveSignUpCredentials(
             success.accessToken!,
             success.token!,
+            model.email,
           );
           return localResult;
         }
