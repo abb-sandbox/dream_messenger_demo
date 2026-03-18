@@ -1,3 +1,4 @@
+import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/dependencyInjection/service_locator.dart';
-import 'core/services/auth_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +25,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AuthCubit>(create: (_) => sl<AuthCubit>()),
         BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
         BlocProvider<VerifyEmailBloc>(create: (_) => sl<VerifyEmailBloc>()),
         BlocProvider<SignInBloc>(create: (_) => sl<SignInBloc>()),
@@ -32,19 +33,20 @@ class Home extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
+          final authCubit = context.read<AuthCubit>();
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: state.themeData.brightness == Brightness.dark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
             child: FutureBuilder<bool>(
-              future: sl<AuthService>().isUserSignedIn(),
+              future: authCubit.isUserSignedIn(),
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final signedIn = snapshot.data!;
                   Widget routePage = SignUpPage();
                   if (signedIn) {
                     routePage = ChatListPage(
-                      email: sl<AuthService>().userEmail!,
+                      email: authCubit.userEmail!,
                     );
                   }
                   return MaterialApp(

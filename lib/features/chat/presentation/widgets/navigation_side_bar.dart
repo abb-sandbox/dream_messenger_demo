@@ -1,9 +1,10 @@
-import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
-import 'package:dream_messenger_demo/core/services/auth_service.dart';
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/side_bar_item.dart';
 import 'package:dream_messenger_demo/shared/widgets/theme_switch_button.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/bloc/authCubit/auth_cubit.dart';
+import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 
 class NavigationSideBar extends StatelessWidget {
   const NavigationSideBar({super.key});
@@ -21,7 +22,7 @@ class NavigationSideBar extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     final theme = Theme.of(context);
-    final email = sl<AuthService>().userEmail!;
+    final email = context.read<AuthCubit>().userEmail!;
     return Container(
       color: Colors.blue.shade50,
       child: Column(
