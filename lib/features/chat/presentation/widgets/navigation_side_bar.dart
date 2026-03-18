@@ -1,4 +1,6 @@
+import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/side_bar_item.dart';
 import 'package:dream_messenger_demo/shared/widgets/theme_switch_button.dart';
 import 'package:flutter/material.dart';
@@ -81,13 +83,30 @@ class NavigationSideBar extends StatelessWidget {
   }
 
   Widget _buildSideBarItems(BuildContext context) {
-    return Column(
-      children: [
-        SideBarItem(text: "Profile"),
-        SideBarItem(text: "Chats"),
-        SideBarItem(text: "Settings"),
-        SideBarItem(text: "Log out", color: Colors.red),
-      ],
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthSignedOutState) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => SignInPage()),
+            (route) => false,
+          );
+        }
+      },
+      child: Column(
+        children: [
+          SideBarItem(text: "Profile"),
+          SideBarItem(text: "Chats"),
+          SideBarItem(text: "Settings"),
+          SideBarItem(
+            text: "Log out",
+            color: Colors.red,
+            onTap: () {
+              context.read<AuthCubit>().signOut();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
