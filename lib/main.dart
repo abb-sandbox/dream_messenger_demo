@@ -51,6 +51,7 @@ class Home extends StatelessWidget {
                   }
                   return MaterialApp(
                     home: routePage,
+                    theme: state.themeData,
                     builder: (context, child) {
                       return GestureDetector(
                         behavior: HitTestBehavior.opaque,
