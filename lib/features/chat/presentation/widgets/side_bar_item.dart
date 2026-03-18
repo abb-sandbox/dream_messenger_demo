@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/responsive_helper.dart';
 
 class SideBarItem extends StatelessWidget {
-  const SideBarItem({super.key, required this.text, this.color});
+  const SideBarItem({
+    super.key,
+    required this.text,
+    this.color,
+    this.onTap,
+  });
 
+  final Function()? onTap;
   final String text;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.symmetric(
