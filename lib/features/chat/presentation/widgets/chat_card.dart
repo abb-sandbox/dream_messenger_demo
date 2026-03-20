@@ -10,8 +10,6 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      // color: Colors.indigoAccent,
-      // height: context.responsiveValue(35),
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2),
