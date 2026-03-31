@@ -45,6 +45,7 @@ class AuthRepositoryImpl implements AuthRepository {
           success.accessToken,
           success.token,
           model.email,
+          model.password
         );
         return localResult.fold((failure) => Left(failure), (_) => Right(unit));
       });
@@ -64,6 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
             success.accessToken!,
             success.token!,
             model.email,
+            model.password
           );
           return localResult;
         }

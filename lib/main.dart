@@ -45,6 +45,10 @@ class Home extends StatelessWidget {
                   final signedIn = snapshot.data!;
                   Widget routePage = SignUpPage();
                   if (signedIn) {
+                    authCubit.signIn(
+                      authCubit.userEmail!,
+                      "",
+                    );
                     routePage = ChatListPage(
                       email: authCubit.userEmail!,
                     );
