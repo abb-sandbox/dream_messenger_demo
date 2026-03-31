@@ -8,6 +8,7 @@ class AuthCubit extends Cubit<AuthState> {
   final SharedPreferencesAsync _asyncPrefs;
   bool? _userSignedIn;
   String? _userEmail;
+  String? _userPassword;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -27,15 +28,29 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthSignedOutState());
   }
 
+  Future<void> signIn(String email, String password) async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   String? get userEmail => _userEmail;
+
+  String? get userPassword => _userPassword;
 
   Future<bool> isUserSignedIn() async {
     if (_userSignedIn != null) return _userSignedIn!;
 
-    final result = await _asyncPrefs.getString(Constants.emailKey);
-    if (result != null && result.isNotEmpty) {
-      _userEmail = result;
+    final result = await Future.wait([
+      _asyncPrefs.getString(Constants.emailKey),
+      _asyncPrefs.getString(Constants.passwordKey),
+    ]);
+    if (result[0] != null && result[0]!.isNotEmpty) {
+      _userEmail = result[0];
       _userSignedIn = true;
+      _userPassword = result[1];
+      signIn(_userEmail!, _userPassword!);
       return _userSignedIn!;
     }
 

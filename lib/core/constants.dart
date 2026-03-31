@@ -7,6 +7,7 @@ abstract class Constants {
 
   static final accessTokenKey = "accessTokenKey";
   static final refreshTokenKey = "refreshTokenKey";
+  static final passwordKey = "passwordKey";
 
   static final firebaseAccessTokenKey = "firebaseAccessTokenKey";
   static final firebaseTokenKey = "firebaseTokenKey";
