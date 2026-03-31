@@ -1,4 +1,5 @@
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
+import 'package:dream_messenger_demo/shared/widgets/theme_switch_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bloc/themeBloc/theme_bloc.dart';
@@ -19,21 +20,7 @@ class CustomAppBar extends StatelessWidget {
             margin: EdgeInsets.only(
               right: context.responsiveValue(16, tablet: 26, desktop: 34),
             ),
-            child: IconButton(
-              onPressed: () => themeBloc.add(ThemeSwitchEvent()),
-              icon: Transform.rotate(
-                angle: 0.50,
-                child: BlocBuilder<ThemeBloc, ThemeState>(
-                  builder: (context, state) {
-                    return Icon(
-                      state.themeData.brightness == Brightness.dark
-                          ? Icons.brightness_2_outlined
-                          : Icons.wb_sunny_outlined,
-                    );
-                  },
-                ),
-              ),
-            ),
+            child: ThemeSwitchButton(),
           ),
         ],
       ),
