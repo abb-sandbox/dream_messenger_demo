@@ -13,10 +13,16 @@ class NavigationSideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Drawer(
+      backgroundColor: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
-        child: Column(
-          children: [_buildHeader(context), _buildSideBarItems(context)],
+        child: DefaultTextStyle(
+          
+          style: TextStyle(color: theme.colorScheme.surface),
+          child: Column(
+            children: [_buildHeader(context), _buildSideBarItems(context)],
+          ),
         ),
       ),
     );
@@ -25,60 +31,57 @@ class NavigationSideBar extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final theme = Theme.of(context);
     final email = context.read<AuthCubit>().userEmail!;
-    return Container(
-      color: Colors.blue.shade50,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ThemeSwitchButton(
-                size: context.responsiveValue<double>(
-                  32,
-                  tablet: 34,
-                  desktop: 36,
-                ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ThemeSwitchButton(
+              size: context.responsiveValue<double>(
+                32,
+                tablet: 34,
+                desktop: 36,
               ),
-            ],
-          ),
-          Container(
-            height: context.responsiveValue(100),
-            width: context.responsiveValue(100),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                context.responsiveValue<double>(50),
-              ),
+            ),
+          ],
+        ),
+        Container(
+          height: context.responsiveValue(100),
+          width: context.responsiveValue(100),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              context.responsiveValue<double>(50),
+            ),
 
-              color: Colors.blue,
-            ),
-            child: Center(
-              child: Text(
-                email[0],
-                style: TextStyle(
-                  color: theme.scaffoldBackgroundColor,
-                  fontWeight: FontWeight.normal,
-                  fontSize: context.responsiveValue(
-                    45,
-                    tablet: 47,
-                    desktop: 50,
-                  ),
+            color: Colors.blue,
+          ),
+          child: Center(
+            child: Text(
+              email[0],
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.normal,
+                fontSize: context.responsiveValue(
+                  45,
+                  tablet: 47,
+                  desktop: 50,
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: context.responsiveValue(20, tablet: 25, desktop: 30),
-            ),
-            child: Text(
-              email,
-              style: TextStyle(
-                fontSize: context.responsiveValue(20, tablet: 22, desktop: 24),
-              ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: context.responsiveValue(20, tablet: 25, desktop: 30),
+          ),
+          child: Text(
+            email,
+            style: TextStyle(
+              fontSize: context.responsiveValue(20, tablet: 22, desktop: 24),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
