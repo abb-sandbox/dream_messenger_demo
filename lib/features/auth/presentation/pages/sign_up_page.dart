@@ -9,8 +9,9 @@ import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_fi
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/bloc/authCubit/auth_cubit.dart';
 import '../../../chat/presentation/pages/chat_list_page.dart';
-import '../bloc/verifyEmailBloc/verify_email_bloc.dart';
+import '../bloc/signInBloc/sign_in_bloc.dart';
 import '../widgets/google_auth_widget.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -43,8 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final verifyEmailBloc = context.read<VerifyEmailBloc>();
     final signUpBloc = context.read<SignUpBloc>();
+    final authCubit = context.read<AuthCubit>();
     final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
@@ -145,18 +146,12 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // verifyEmailBloc.add(
-                                  //   SendVerifyDataEvent(
-                                  //     email: emailTextController.text.trim(),
-                                  //     password: passwordTextController.text.trim(),
-                                  //   ),
-                                  // );
 
                                   signUpBloc.add(
                                     SignUpBtnClicked(
                                       email: emailTextController.text.trim(),
                                       password: passwordTextController.text
-                                          .trim(),
+                                          .trim(),context: context
                                     ),
                                   );
                                 }

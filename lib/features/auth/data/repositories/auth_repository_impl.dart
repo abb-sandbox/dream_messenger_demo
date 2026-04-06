@@ -18,24 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
        _localDatasource = localDataSource;
 
   @override
-  Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserEntity entity) async {
-    try {
-      final model = AuthUserModel.fromEntity(entity);
-      final remoteResult = await _remoteDatasource.sendLinkToEmail(model);
-
-      return await remoteResult.fold((failure) => Left(failure), (_) async {
-        final localResult = await _localDatasource.saveEmail(model.email);
-        return localResult.fold((failure) => Left(failure), (_) {
-          return const Right(unit);
-        });
-      });
-    } catch (err) {
-      return Left(RepositoryLevelFailure(message: err.toString()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> signIn(AuthUserEntity entity) async {
+  Future<Either<Failure, String>> signIn(AuthUserEntity entity) async {
     try {
       final model = AuthUserModel.fromEntity(entity);
       final remoteResult = await _remoteDatasource.signIn(model);
@@ -46,7 +29,10 @@ class AuthRepositoryImpl implements AuthRepository {
           model.email,
           model.password,
         );
-        return localResult.fold((failure) => Left(failure), (_) => Right(unit));
+        return localResult.fold(
+          (failure) => Left(failure),
+          (_) => Right(success.uid),
+        );
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));
@@ -54,7 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signUp(AuthUserEntity entity) async {
+  Future<Either<Failure, String>> signUp(AuthUserEntity entity) async {
     try {
       final model = AuthUserModel.fromEntity(entity);
       final remoteResult = await _remoteDatasource.signUp(model);
@@ -64,7 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
           model.email,
           model.password,
         );
-        return localResult;
+        return localResult.fold(
+          (failure) => Left(failure),
+          (_) => Right(success.uid),
+        );
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));

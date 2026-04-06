@@ -5,8 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/failure/failure.dart';
 
 abstract interface class AuthLocalDataSource {
-  Future<Either<Failure, Unit>> saveEmail(String email);
-
   Future<Either<Failure, Unit>> saveSignInCredentials(
     String uid,
     String email,
@@ -25,16 +23,6 @@ class AuthLocalDatasourceImpl implements AuthLocalDataSource {
 
   AuthLocalDatasourceImpl({required SharedPreferencesAsync asyncPrefs})
     : _asyncPrefs = asyncPrefs;
-
-  @override
-  Future<Either<Failure, Unit>> saveEmail(String email) async {
-    try {
-      await _asyncPrefs.setString("temp_email", email);
-      return const Right(unit);
-    } catch (err) {
-      return Left(LocalDataFailure(message: err.toString()));
-    }
-  }
 
   @override
   Future<Either<Failure, Unit>> saveSignInCredentials(

@@ -1,7 +1,6 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
@@ -27,7 +26,6 @@ class Home extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (_) => sl<AuthCubit>()),
         BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
-        BlocProvider<VerifyEmailBloc>(create: (_) => sl<VerifyEmailBloc>()),
         BlocProvider<SignInBloc>(create: (_) => sl<SignInBloc>()),
         BlocProvider<SignUpBloc>(create: (_) => sl<SignUpBloc>()),
       ],
@@ -38,17 +36,14 @@ class Home extends StatelessWidget {
             value: state.themeData.brightness == Brightness.dark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
-            child: FutureBuilder<bool>(
-              future: authCubit.isUserSignedIn(),
+            child: FutureBuilder<void>(
+              future: authCubit.init(),
               builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  final signedIn = snapshot.data!;
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final signedInBefore = authCubit.isLoginInfoSaved;
                   Widget routePage = SignUpPage();
-                  if (signedIn) {
-                    authCubit.signIn(
-                      authCubit.userEmail!,
-                      "",
-                    );
+                  if (signedInBefore) {
+                    authCubit.signInRemotely();
                     routePage = ChatListPage(
                       email: authCubit.userEmail!,
                     );
