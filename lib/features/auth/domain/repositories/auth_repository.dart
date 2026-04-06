@@ -4,9 +4,8 @@ import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_ent
 import '../../../../core/failure/failure.dart';
 
 abstract interface class AuthRepository {
-  Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserEntity entity);
 
-  Future<Either<Failure, Unit>> signUp(AuthUserEntity entity);
+  Future<Either<Failure, String>> signUp(AuthUserEntity entity);
 
-  Future<Either<Failure, Unit>> signIn(AuthUserEntity entity);
+  Future<Either<Failure, String>> signIn(AuthUserEntity entity);
 }

@@ -143,6 +143,7 @@ class _SignInPageState extends State<SignInPage> {
                                     SignInBtnClicked(
                                       email: emailTextController.text,
                                       password: passwordTextController.text,
+                                      context: context,
                                     ),
                                   );
                                 }

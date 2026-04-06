@@ -18,7 +18,6 @@ class NavigationSideBar extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
         child: DefaultTextStyle(
-          
           style: TextStyle(color: theme.colorScheme.surface),
           child: Column(
             children: [_buildHeader(context), _buildSideBarItems(context)],
@@ -61,11 +60,7 @@ class NavigationSideBar extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.normal,
-                fontSize: context.responsiveValue(
-                  45,
-                  tablet: 47,
-                  desktop: 50,
-                ),
+                fontSize: context.responsiveValue(45, tablet: 47, desktop: 50),
               ),
             ),
           ),

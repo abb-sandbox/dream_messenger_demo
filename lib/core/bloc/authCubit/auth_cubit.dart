@@ -1,22 +1,47 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SharedPreferencesAsync _asyncPrefs;
-  bool? _userSignedIn;
+  bool? _isLoginInfoSaved;
   String? _userEmail;
   String? _userPassword;
+  String? _userID;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   AuthCubit({required asyncPrefs})
     : _asyncPrefs = asyncPrefs,
-      super(AuthInitialState());
+      super(AuthInitialState()) {}
 
   Stream<User?> get userStatus => _auth.authStateChanges();
+
+  Future<void> init({String? userID, userEmail, userPassword}) async {
+    if (userID == null || userEmail == null || userPassword == null) {
+      final results = await Future.wait([
+        _asyncPrefs.getString(Constants.userID),
+        _asyncPrefs.getString(Constants.emailKey),
+        _asyncPrefs.getString(Constants.passwordKey),
+      ]);
+      if (results[0] == null || results[1] == null || results[2] == null) {
+        _isLoginInfoSaved = false;
+      } else {
+        _userID = results[0];
+        _userEmail = results[1];
+        _userPassword = results[2];
+        _isLoginInfoSaved = true;
+      }
+    } else {
+      _userID = userID;
+      _userEmail = userEmail;
+      _userPassword = userPassword;
+      _isLoginInfoSaved = true;
+    }
+  }
 
   Future<void> signOut() async {
     await _auth.signOut();
@@ -26,33 +51,19 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthSignedOutState());
   }
 
-  Future<void> signIn(String email, String password) async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+  Future<void> signInRemotely() async {
+    await _auth.signInWithEmailAndPassword(
+      email: _userEmail!,
+      password: _userPassword!,
     );
+    emit(AuthSignedInState());
   }
 
   String? get userEmail => _userEmail;
 
   String? get userPassword => _userPassword;
 
-  Future<bool> isUserSignedIn() async {
-    if (_userSignedIn != null) return _userSignedIn!;
+  String? get userID => _userID;
 
-    final result = await Future.wait([
-      _asyncPrefs.getString(Constants.emailKey),
-      _asyncPrefs.getString(Constants.passwordKey),
-    ]);
-    if (result[0] != null && result[0]!.isNotEmpty) {
-      _userEmail = result[0];
-      _userSignedIn = true;
-      _userPassword = result[1];
-      signIn(_userEmail!, _userPassword!);
-      return _userSignedIn!;
-    }
-
-    _userSignedIn = false;
-    return _userSignedIn!;
-  }
+  bool get isLoginInfoSaved => _isLoginInfoSaved!;
 }

@@ -4,6 +4,7 @@ import "package:dream_messenger_demo/core/failure/failure.dart";
 import "package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart";
 import "package:dream_messenger_demo/features/auth/domain/usecases/sign_up_usecase.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
+import "../../../../../core/bloc/authCubit/auth_cubit.dart";
 import "sign_up_event.dart";
 import "sign_up_state.dart";
 
@@ -16,18 +17,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         emit(SignUpLoadingState());
 
         final result = await signUpUseCase.call(
-          AuthUserEntity(
-            email: event.email,
-            password: event.password,
-            token: "",
-          ),
+          AuthUserEntity(email: event.email, password: event.password),
         );
 
-        result.fold((failure) => emit(SignUpFailureState(failure: failure)), (_) {
+        await result.fold((failure) async=> emit(SignUpFailureState(failure: failure)), (
+          userID,
+        ) async {
+          await event.context
+              .read<AuthCubit>()
+              .init(
+                userID: userID,
+                userEmail: event.email,
+                userPassword: event.password,
+              );
           emit(SignUpSuccessState());
         });
       } catch (err) {
-        emit(SignUpFailureState(failure: BlocLevelFailure(message: err.toString())));
+        emit(
+          SignUpFailureState(
+            failure: BlocLevelFailure(message: err.toString()),
+          ),
+        );
       }
     });
   }
