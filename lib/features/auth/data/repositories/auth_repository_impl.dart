@@ -42,10 +42,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return remoteResult.fold((f) => Left(f), (success) async {
         final localResult = await _localDatasource.saveSignInCredentials(
-          success.accessToken,
-          success.token,
+          success.uid,
           model.email,
-          model.password
+          model.password,
         );
         return localResult.fold((failure) => Left(failure), (_) => Right(unit));
       });
@@ -60,16 +59,12 @@ class AuthRepositoryImpl implements AuthRepository {
       final model = AuthUserModel.fromEntity(entity);
       final remoteResult = await _remoteDatasource.signUp(model);
       return remoteResult.fold((failure) => Left(failure), (success) async {
-        if (success.token != null && success.accessToken != null) {
-          final localResult = await _localDatasource.saveSignUpCredentials(
-            success.accessToken!,
-            success.token!,
-            model.email,
-            model.password
-          );
-          return localResult;
-        }
-        return Right(unit);
+        final localResult = await _localDatasource.saveSignUpCredentials(
+          success.uid,
+          model.email,
+          model.password,
+        );
+        return localResult;
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));

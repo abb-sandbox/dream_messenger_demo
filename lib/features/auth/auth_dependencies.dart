@@ -9,6 +9,9 @@ import 'package:dream_messenger_demo/features/auth/domain/usecases/verify_email_
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/verifyEmailBloc/verify_email_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasources/local/auth_local_datasource.dart';
@@ -16,7 +19,15 @@ import 'data/datasources/remote/auth_remote_datasource.dart';
 
 Future<void> initAuthDependencies() async {
   sl.registerSingleton<AuthRemoteDataSource>(
-    AuthRemoteDataSourceImpl(dio: sl<Dio>()),
+    AuthRemoteDataSourceImpl(
+      dio: sl<Dio>(),
+      db: FirebaseDatabase.instanceFor(
+        app: Firebase.app(),
+        databaseURL:
+            "https://dream-demo-78152-default-rtdb.europe-west1.firebasedatabase.app/",
+      ),
+      auth: FirebaseAuth.instance,
+    ),
   );
 
   sl.registerSingleton<AuthLocalDataSource>(

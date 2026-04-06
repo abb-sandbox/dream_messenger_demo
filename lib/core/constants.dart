@@ -5,11 +5,12 @@ abstract class Constants {
   static final desktopMinWidth = 1025; // desktop width > 1024
   static final regularRadius = 5.0;
 
-  static final accessTokenKey = "accessTokenKey";
-  static final refreshTokenKey = "refreshTokenKey";
+  // static final accessTokenKey = "accessTokenKey";
+  // static final refreshTokenKey = "refreshTokenKey";
   static final passwordKey = "passwordKey";
+  static final userID = "userID";
 
-  static final firebaseAccessTokenKey = "firebaseAccessTokenKey";
-  static final firebaseTokenKey = "firebaseTokenKey";
+  // static final firebaseAccessTokenKey = "firebaseAccessTokenKey";
+  // static final firebaseTokenKey = "firebaseTokenKey";
   static final emailKey = "emailKey";
 }

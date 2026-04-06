@@ -4,6 +4,7 @@ import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/auth/data/models/auth_user_model.dart';
 import 'package:dream_messenger_demo/features/auth/data/models/sign_in_success_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../../models/sign_up_success_model.dart';
 
@@ -13,12 +14,20 @@ abstract interface class AuthRemoteDataSource {
   Future<Either<Failure, SignUpSuccessModel>> signUp(AuthUserModel model);
 
   Future<Either<Failure, SignInSuccessModel>> signIn(AuthUserModel model);
+
+  Future<Either<Failure, Unit>> updateStatus();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Dio dio;
+  FirebaseDatabase db;
+  FirebaseAuth auth;
 
-  AuthRemoteDataSourceImpl({required this.dio});
+  AuthRemoteDataSourceImpl({
+    required this.dio,
+    required this.db,
+    required this.auth,
+  });
 
   @override
   Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserModel model) async {
@@ -46,33 +55,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: model.email,
         password: model.password,
       );
-      print(credential.credential);
-      if (credential.credential != null) {
-        return Right(
-          SignInSuccessModel(
-            accessToken: credential.credential!.accessToken!,
-            token: credential.credential!.token!,
-          ),
-        );
-      }
-      return Right(
-        SignInSuccessModel(
-          accessToken: "None",
-          token: 0,
-        ),
-      );
-      /*final response = await dio.post(
-        "/api/v1/auth/login",
-        data: model.toJson(),
-      );
-      if (response.statusCode == 200) {
-        final model = SignInSuccessModel.fromJson(response.data);
-        return Right(model);
-      } else {
-        return Left(
-          RemoteDataFailure(message: response.statusMessage.toString()),
-        );
-      } */
+      final result = await updateStatus();
+      return result.fold((failure) => Left(failure), (_) {
+        return Right(SignInSuccessModel(uid: credential.user!.uid));
+      });
     } on FirebaseAuthException catch (err) {
       return Left(RemoteDataFailure(message: "${err.code} | ${err.message}"));
     } catch (err) {
@@ -90,16 +76,37 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             email: model.email,
             password: model.password,
           );
-      return Right(
-        SignUpSuccessModel(
-          token: credential.credential?.token,
-          accessToken: credential.credential?.accessToken,
-        ),
-      );
+      final result = await updateStatus();
+      return result.fold((failure) => Left(failure), (_) {
+        return Right(SignUpSuccessModel(uid: credential.user!.uid));
+      });
     } on FirebaseAuthException catch (err) {
       return Left(RemoteDataFailure(message: "${err.code} | ${err.message}"));
     } catch (err) {
       return Left(RemoteDataFailure(message: err.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateStatus() async {
+    final userId = auth.currentUser?.uid;
+    if (userId == null) Left(RemoteDataFailure(message: "User not found"));
+
+    DatabaseReference presenceRef = db.ref("status/$userId");
+
+    await presenceRef.onDisconnect().set(({
+      "presence": "offline",
+      "last_changed": ServerValue.timestamp,
+    }));
+
+    try {
+      await presenceRef.set({
+        "presence": "online",
+        "last_changed": ServerValue.timestamp,
+      });
+    } catch (e) {
+      return Left(RemoteDataFailure(message: e.toString()));
+    }
+    return Right(unit);
   }
 }
