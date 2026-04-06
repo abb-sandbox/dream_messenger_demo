@@ -20,10 +20,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signOut() async {
     await _auth.signOut();
-    await _asyncPrefs.remove(Constants.firebaseAccessTokenKey);
-    await _asyncPrefs.remove(Constants.firebaseTokenKey);
-    await _asyncPrefs.remove(Constants.accessTokenKey);
-    await _asyncPrefs.remove(Constants.refreshTokenKey);
+    await _asyncPrefs.remove(Constants.passwordKey);
+    await _asyncPrefs.remove(Constants.userID);
     await _asyncPrefs.remove(Constants.emailKey);
     emit(AuthSignedOutState());
   }

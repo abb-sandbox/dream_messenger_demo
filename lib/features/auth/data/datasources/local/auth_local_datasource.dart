@@ -8,17 +8,15 @@ abstract interface class AuthLocalDataSource {
   Future<Either<Failure, Unit>> saveEmail(String email);
 
   Future<Either<Failure, Unit>> saveSignInCredentials(
-    String accessToken,
-    int token,
+    String uid,
     String email,
-      String password
+    String password,
   );
 
   Future<Either<Failure, Unit>> saveSignUpCredentials(
-    String accessToken,
-    int token,
+    String uid,
     String email,
-      String password
+    String password,
   );
 }
 
@@ -40,17 +38,12 @@ class AuthLocalDatasourceImpl implements AuthLocalDataSource {
 
   @override
   Future<Either<Failure, Unit>> saveSignInCredentials(
-    String accessToken,
-    int token,
+    String uid,
     String email,
-      String password
+    String password,
   ) async {
     try {
-      await _asyncPrefs.setString(
-        Constants.firebaseAccessTokenKey,
-        accessToken,
-      );
-      await _asyncPrefs.setInt(Constants.firebaseTokenKey, token);
+      await _asyncPrefs.setString(Constants.userID, uid);
       await _asyncPrefs.setString(Constants.emailKey, email);
       await _asyncPrefs.setString(Constants.passwordKey, password);
       return Right(unit);
@@ -61,22 +54,13 @@ class AuthLocalDatasourceImpl implements AuthLocalDataSource {
 
   @override
   Future<Either<Failure, Unit>> saveSignUpCredentials(
-    String accessToken,
-    int token,
+    String uid,
     String email,
-      String password
+    String password,
   ) async {
     try {
-      await _asyncPrefs.setString(
-        Constants.firebaseAccessTokenKey,
-        accessToken,
-      );
       await _asyncPrefs.setString(Constants.passwordKey, password);
-      await _asyncPrefs.setInt(Constants.firebaseTokenKey, token);
-      await _asyncPrefs.setString(
-        Constants.firebaseAccessTokenKey,
-        accessToken,
-      );
+      await _asyncPrefs.setString(Constants.userID, uid);
       await _asyncPrefs.setString(Constants.emailKey, email);
 
       return Right(unit);

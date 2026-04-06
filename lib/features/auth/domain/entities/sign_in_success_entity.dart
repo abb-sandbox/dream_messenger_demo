@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class SignInSuccessEntity with EquatableMixin {
-  final String accessToken;
-  final int token;
+  final String uid;
 
-  SignInSuccessEntity({required this.accessToken, required this.token});
+  SignInSuccessEntity({required this.uid});
 
   @override
-  List<Object?> get props => [accessToken, token];
+  List<Object?> get props => [uid];
 }

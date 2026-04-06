@@ -1,6 +1,5 @@
 class SignUpSuccessModel {
-  int? token;
-  String? accessToken;
+  String uid;
 
-  SignUpSuccessModel({token, accessToken});
+  SignUpSuccessModel({required this.uid});
 }
