@@ -16,14 +16,17 @@ import 'data/datasources/local/auth_local_datasource.dart';
 import 'data/datasources/remote/auth_remote_datasource.dart';
 
 Future<void> initAuthDependencies() async {
+  sl.registerSingleton(
+    FirebaseDatabase.instanceFor(
+      app: Firebase.app(),
+      databaseURL:
+          "https://dream-demo-78152-default-rtdb.europe-west1.firebasedatabase.app",
+    ),
+  );
   sl.registerSingleton<AuthRemoteDataSource>(
     AuthRemoteDataSourceImpl(
       dio: sl<Dio>(),
-      db: FirebaseDatabase.instanceFor(
-        app: Firebase.app(),
-        databaseURL:
-            "https://dream-demo-78152-default-rtdb.europe-west1.firebasedatabase.app/",
-      ),
+      db: sl<FirebaseDatabase>(),
       auth: FirebaseAuth.instance,
     ),
   );

@@ -76,10 +76,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             email: model.email,
             password: model.password,
           );
-      final result = await updateStatus();
-      return result.fold((failure) => Left(failure), (_) {
-        return Right(SignUpSuccessModel(uid: credential.user!.uid));
-      });
+      if (credential.user == null) {
+        return Left(RemoteDataFailure(message: "Error while creating a user!"));
+      }
+      return Right(SignUpSuccessModel(uid: credential.user!.uid));
     } on FirebaseAuthException catch (err) {
       return Left(RemoteDataFailure(message: "${err.code} | ${err.message}"));
     } catch (err) {

@@ -106,7 +106,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                           MaterialPageRoute(
                                             builder: (context) => SignInPage(),
                                           ),
-                                          (route) => true,
+                                          (route) => false,
                                         ),
                                   text: "Sign in",
                                   style: TextStyle(

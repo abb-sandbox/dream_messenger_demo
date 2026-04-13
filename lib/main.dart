@@ -43,9 +43,18 @@ class Home extends StatelessWidget {
                   final signedInBefore = authCubit.isLoginInfoSaved;
                   Widget routePage = SignUpPage();
                   if (signedInBefore) {
-                    authCubit.signInRemotely();
-                    routePage = ChatListPage(
-                      email: authCubit.userEmail!,
+                    routePage = FutureBuilder<void>(
+                      future: authCubit.signInRemotely(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return ChatListPage(email: authCubit.userEmail!);
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ),
+                        );
+                      },
                     );
                   }
                   return MaterialApp(

@@ -3,7 +3,10 @@ import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../dependencyInjection/service_locator.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SharedPreferencesAsync _asyncPrefs;
@@ -13,10 +16,11 @@ class AuthCubit extends Cubit<AuthState> {
   String? _userID;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseDatabase _db = sl<FirebaseDatabase>();
 
   AuthCubit({required asyncPrefs})
     : _asyncPrefs = asyncPrefs,
-      super(AuthInitialState()) {}
+      super(AuthInitialState());
 
   Stream<User?> get userStatus => _auth.authStateChanges();
 
@@ -44,6 +48,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signOut() async {
+    final ref = _db.ref("status/$_userID");
+    await ref.set({
+      "presence": "offline",
+      "last_changed": ServerValue.timestamp,
+    });
     await _auth.signOut();
     await _asyncPrefs.remove(Constants.passwordKey);
     await _asyncPrefs.remove(Constants.userID);
