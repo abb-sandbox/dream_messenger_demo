@@ -43,17 +43,20 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, String>> signUp(AuthUserEntity entity) async {
     try {
       final model = AuthUserModel.fromEntity(entity);
-      final remoteResult = await _remoteDatasource.signUp(model);
-      return remoteResult.fold((failure) => Left(failure), (success) async {
-        final localResult = await _localDatasource.saveSignUpCredentials(
-          success.uid,
-          model.email,
-          model.password,
-        );
-        return localResult.fold(
-          (failure) => Left(failure),
-          (_) => Right(success.uid),
-        );
+      final signUpRes = await _remoteDatasource.signUp(model);
+      return signUpRes.fold((failure) => Left(failure), (success) async {
+        final signInRes = await _remoteDatasource.signIn(model);
+        return signInRes.fold((failure)=> Left(failure), (_)async{
+          final localResult = await _localDatasource.saveSignUpCredentials(
+            success.uid,
+            model.email,
+            model.password,
+          );
+          return localResult.fold(
+                (failure) => Left(failure),
+                (_) => Right(success.uid),
+          );
+        });
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));
