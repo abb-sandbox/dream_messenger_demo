@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
   final TextEditingController passwordTextController;
+  final FocusNode focus;
+  VoidCallback onSubmitted;
 
-  const PasswordField({super.key, required this.passwordTextController});
+  PasswordField({
+    super.key,
+    required this.passwordTextController,
+    required this.focus,
+    required this.onSubmitted,
+  });
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -20,12 +27,14 @@ class _PasswordFieldState extends State<PasswordField> {
     final size = MediaQuery.of(context).size;
 
     return TextFormField(
+      focusNode: widget.focus,
       validator: (value) {
         if (value == null || value.isEmpty || value.length < 8) {
           return 'Please enter a valid password';
         }
         return null;
       },
+      onFieldSubmitted: (_) => widget.onSubmitted(),
       controller: widget.passwordTextController,
       textAlignVertical: TextAlignVertical.center,
       obscureText: passwordObscured,
@@ -41,7 +50,7 @@ class _PasswordFieldState extends State<PasswordField> {
             passwordObscured = !passwordObscured;
           }),
           icon: Icon(
-            passwordObscured ? Icons.visibility_off : Icons.visibility
+            passwordObscured ? Icons.visibility_off : Icons.visibility,
           ),
           iconSize: context.iconSize,
         ),

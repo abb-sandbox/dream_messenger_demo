@@ -23,3 +23,7 @@ class RepositoryLevelFailure extends Failure {
 class BlocLevelFailure extends Failure {
   BlocLevelFailure({required super.message});
 }
+
+class UseCaseLevelFailure extends Failure {
+  UseCaseLevelFailure({required super.message});
+}

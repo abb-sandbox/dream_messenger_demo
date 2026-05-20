@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/dependencyInjection/service_locator.dart';
+import 'features/chat/presentation/bloc/chatListCubit/chat_list_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class Home extends StatelessWidget {
         BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
         BlocProvider<SignInBloc>(create: (_) => sl<SignInBloc>()),
         BlocProvider<SignUpBloc>(create: (_) => sl<SignUpBloc>()),
+        BlocProvider<ChatListCubit>(create: (_) => sl<ChatListCubit>()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -50,9 +52,7 @@ class Home extends StatelessWidget {
                           return ChatListPage(email: authCubit.userEmail!);
                         }
                         return Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ),
+                          child: CircularProgressIndicator(color: Colors.blue),
                         );
                       },
                     );

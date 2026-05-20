@@ -25,6 +25,8 @@ class _SignUpPageState extends State<SignUpPage> {
   late final TextEditingController passwordTextController;
   late final TextEditingController emailTextController;
   late final GlobalKey<FormState> _formKey;
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
 
   @override
   initState() {
@@ -38,13 +40,14 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     passwordTextController.dispose();
     emailTextController.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final signUpBloc = context.read<SignUpBloc>();
     final authCubit = context.read<AuthCubit>();
     final theme = Theme.of(context);
     return ScreenCoverage(
@@ -73,12 +76,20 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         SizedBox(height: size.height * 0.25),
 
-                        EmailField(emailTextController: emailTextController),
+                        EmailField(
+                          emailTextController: emailTextController,
+                          focus: emailFocus,
+                          onSubmitted: () {
+                            FocusScope.of(context).requestFocus(passwordFocus);
+                          },
+                        ),
 
                         SizedBox(height: size.height * 0.02),
 
                         PasswordField(
                           passwordTextController: passwordTextController,
+                          onSubmitted: _validateAndProceed,
+                          focus: passwordFocus,
                         ),
 
                         SizedBox(height: size.height * 0.01),
@@ -144,18 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               borderRadius: BorderRadius.circular(
                                 Constants.regularRadius,
                               ),
-                              onTap: () {
-                                if (_formKey.currentState!.validate()) {
-
-                                  signUpBloc.add(
-                                    SignUpBtnClicked(
-                                      email: emailTextController.text.trim(),
-                                      password: passwordTextController.text
-                                          .trim(),context: context
-                                    ),
-                                  );
-                                }
-                              },
+                              onTap: () => _validateAndProceed(),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.primary,
@@ -198,5 +198,18 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  _validateAndProceed() {
+    final signUpBloc = context.read<SignUpBloc>();
+    if (_formKey.currentState!.validate()) {
+      signUpBloc.add(
+        SignUpBtnClicked(
+          email: emailTextController.text.trim(),
+          password: passwordTextController.text.trim(),
+          context: context,
+        ),
+      );
+    }
   }
 }

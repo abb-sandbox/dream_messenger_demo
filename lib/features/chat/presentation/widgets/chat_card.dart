@@ -2,9 +2,9 @@ import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class ChatCard extends StatelessWidget {
-  final int index;
+  final String userName;
 
-  const ChatCard({super.key, required this.index});
+  const ChatCard({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class ChatCard extends StatelessWidget {
               radius: context.responsiveValue(26),
             ),
             Container(
-              // color: Colors.indigoAccent,
               padding: EdgeInsets.only(
                 left: context.responsiveValue(6, tablet: 8, desktop: 10),
               ),
@@ -28,7 +27,7 @@ class ChatCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "User #${index + 1}",
+                    userName,
                     style: TextStyle(
                       color: theme.colorScheme.surface,
                       fontSize: context.textSize,
@@ -51,9 +50,13 @@ class ChatCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
-                      radius: context.responsiveValue(9, tablet: 10, desktop: 11),
+                      radius: context.responsiveValue(
+                        9,
+                        tablet: 10,
+                        desktop: 11,
+                      ),
                       child: Text(
-                        "${index+1}",
+                        userName,
                         style: TextStyle(
                           fontSize: context.responsiveValue(
                             12,

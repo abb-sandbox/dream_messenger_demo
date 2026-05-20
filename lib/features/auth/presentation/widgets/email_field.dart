@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 
 class EmailField extends StatefulWidget {
   final TextEditingController emailTextController;
+  final FocusNode focus;
+  final VoidCallback onSubmitted;
 
-  const EmailField({super.key, required this.emailTextController});
+  const EmailField({
+    super.key,
+    required this.emailTextController,
+    required this.focus,
+    required this.onSubmitted,
+  });
 
   @override
   State<EmailField> createState() => _EmailFieldState();
@@ -16,6 +23,8 @@ class _EmailFieldState extends State<EmailField> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return TextFormField(
+      focusNode: widget.focus,
+      onFieldSubmitted: (_) => widget.onSubmitted(),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter an email';

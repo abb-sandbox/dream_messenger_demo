@@ -1,7 +1,6 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
-import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';

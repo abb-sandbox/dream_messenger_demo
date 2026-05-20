@@ -22,6 +22,8 @@ class _SignInPageState extends State<SignInPage> {
   late final TextEditingController passwordTextController;
   late final TextEditingController emailTextController;
   late final GlobalKey<FormState> _formKey;
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
 
   @override
   initState() {
@@ -35,6 +37,8 @@ class _SignInPageState extends State<SignInPage> {
   void dispose() {
     passwordTextController.dispose();
     emailTextController.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
     super.dispose();
   }
 
@@ -42,7 +46,6 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
-    final signInBloc = context.read<SignInBloc>();
     return ScreenCoverage(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -67,12 +70,20 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         SizedBox(height: size.height * 0.25),
 
-                        EmailField(emailTextController: emailTextController),
+                        EmailField(
+                          emailTextController: emailTextController,
+                          focus: emailFocus,
+                          onSubmitted: () {
+                            FocusScope.of(context).requestFocus(passwordFocus);
+                          },
+                        ),
 
                         SizedBox(height: size.height * 0.02),
 
                         PasswordField(
                           passwordTextController: passwordTextController,
+                          focus: passwordFocus,
+                          onSubmitted: _validateAndProceed,
                         ),
 
                         SizedBox(height: size.height * 0.01),
@@ -138,15 +149,7 @@ class _SignInPageState extends State<SignInPage> {
                                 Constants.regularRadius,
                               ),
                               onTap: () {
-                                if (_formKey.currentState!.validate()) {
-                                  signInBloc.add(
-                                    SignInBtnClicked(
-                                      email: emailTextController.text,
-                                      password: passwordTextController.text,
-                                      context: context,
-                                    ),
-                                  );
-                                }
+                                _validateAndProceed();
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -190,5 +193,18 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  _validateAndProceed() {
+    final signInBloc = context.read<SignInBloc>();
+    if (_formKey.currentState!.validate()) {
+      signInBloc.add(
+        SignInBtnClicked(
+          email: emailTextController.text,
+          password: passwordTextController.text,
+          context: context,
+        ),
+      );
+    }
   }
 }

@@ -4,16 +4,30 @@ import 'package:dream_messenger_demo/features/chat/presentation/widgets/chat_car
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/navigation_side_bar.dart';
 import 'package:flutter/material.dart';
 
-class ChatListPage extends StatelessWidget {
+import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import '../bloc/chatListCubit/chat_list_cubit.dart';
+
+class ChatListPage extends StatefulWidget {
   final String email;
 
-  ChatListPage({super.key, required this.email});
+  const ChatListPage({super.key, required this.email});
 
+  @override
+  State<ChatListPage> createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends State<ChatListPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cubit = context.read<ChatListCubit>();
     return ScreenCoverage(
       child: SafeArea(
         child: Scaffold(
@@ -50,23 +64,40 @@ class ChatListPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Flexible(
-                child: ListView.separated(
-                  separatorBuilder: (context, count) {
-                    return Container(
-                      color: theme.colorScheme.surface,
-                      height: context.responsiveValue(
-                        0.2,
-                        tablet: 0.4,
-                        desktop: 0.6,
+              BlocBuilder<ChatListCubit, ChatListState>(
+                builder: (context, state) {
+                  if (state is ChatListUpdated) {
+                    return Flexible(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return Container(
+                            color: theme.colorScheme.surface,
+                            height: context.responsiveValue(
+                              0.2,
+                              tablet: 0.4,
+                              desktop: 0.6,
+                            ),
+                          );
+                        },
+                        itemCount: state.onlineUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = state.onlineUsers[index];
+                          return ChatCard(userName: user.uid);
+                        },
                       ),
                     );
-                  },
-                  itemCount: 20,
-                  itemBuilder: (context, count) {
-                    return ChatCard(index: count);
-                  },
-                ),
+                  } else if (state is ChatListInitialState) {
+                    return Center(
+                      child: IconButton(
+                        onPressed: () async {
+                          await cubit.getOnlineUsers();
+                        },
+                        icon: Icon(Icons.refresh),
+                      ),
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
             ],
           ),
