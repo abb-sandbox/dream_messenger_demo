@@ -15,7 +15,10 @@ import '../bloc/signInBloc/sign_in_bloc.dart';
 import '../widgets/google_auth_widget.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  String? emailField;
+  String? passwordField;
+
+  SignUpPage({super.key, this.emailField, this.passwordField});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -115,7 +118,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => SignInPage(),
+                                            builder: (context) => SignInPage(
+                                              emailField:
+                                                  emailTextController.text,
+                                              passwordField:
+                                                  passwordTextController.text,
+                                            ),
                                           ),
                                           (route) => false,
                                         ),

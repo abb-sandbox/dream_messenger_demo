@@ -1,4 +1,5 @@
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/auth_app_bar.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
@@ -12,7 +13,10 @@ import '../widgets/google_auth_widget.dart';
 import '../widgets/password_field.dart';
 
 class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+  String? passwordField;
+  String? emailField;
+
+  SignInPage({super.key, this.passwordField, this.emailField});
 
   @override
   State<SignInPage> createState() => _SignInPageState();
@@ -28,8 +32,8 @@ class _SignInPageState extends State<SignInPage> {
   @override
   initState() {
     super.initState();
-    passwordTextController = TextEditingController();
-    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController(text: widget.passwordField);
+    emailTextController = TextEditingController(text: widget.emailField);
     _formKey = GlobalKey<FormState>();
   }
 
@@ -104,12 +108,18 @@ class _SignInPageState extends State<SignInPage> {
                                 TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.pop(context),
-                                  // Navigator.pushNamedAndRemoveUntil(
-                                  //   context,
-                                  //   AppRoutes.signUp,
-                                  //   (route) => false,
-                                  // ),
+                                    ..onTap = () =>Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignUpPage(
+                                          emailField:
+                                          emailTextController.text,
+                                          passwordField:
+                                          passwordTextController.text,
+                                        ),
+                                      ),
+                                          (route) => false,
+                                    ),
                                   text: "Sign up",
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
