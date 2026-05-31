@@ -18,6 +18,7 @@ class ChatCard extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.green,
               radius: context.responsiveValue(26),
+              child: Text(userName[0]),
             ),
             Container(
               padding: EdgeInsets.only(
@@ -34,7 +35,7 @@ class ChatCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Content",
+                    "No message",
                     style: TextStyle(
                       color: theme.colorScheme.surface,
                       fontSize: context.textSize,
@@ -47,26 +48,26 @@ class ChatCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: context.responsiveValue(
-                        9,
-                        tablet: 10,
-                        desktop: 11,
-                      ),
-                      child: Text(
-                        userName,
-                        style: TextStyle(
-                          fontSize: context.responsiveValue(
-                            12,
-                            tablet: 13,
-                            desktop: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: CircleAvatar(
+                  //     radius: context.responsiveValue(
+                  //       9,
+                  //       tablet: 10,
+                  //       desktop: 11,
+                  //     ),
+                  //     child: Text(
+                  //       "",
+                  //       style: TextStyle(
+                  //         fontSize: context.responsiveValue(
+                  //           12,
+                  //           tablet: 13,
+                  //           desktop: 14,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

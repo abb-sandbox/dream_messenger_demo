@@ -1,5 +1,6 @@
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
+import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_page.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/chat_card.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/navigation_side_bar.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,17 @@ class _ChatListPageState extends State<ChatListPage> {
                         itemCount: state.onlineUsers.length,
                         itemBuilder: (context, index) {
                           final user = state.onlineUsers[index];
-                          return ChatCard(userName: user.uid);
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(),
+                                ),
+                              );
+                            },
+                            child: ChatCard(userName: user.uid),
+                          );
                         },
                       ),
                     );

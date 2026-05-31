@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 abstract class AppTheme {
   static final lightTheme = ThemeData(
+    useMaterial3: true,
     scaffoldBackgroundColor: Colors.white,
-    iconTheme: IconThemeData(color: Colors.black),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      scrolledUnderElevation: 0, // Prevents color change on scroll
+      centerTitle: true,
+    ),
+    iconTheme: const IconThemeData(color: Colors.black),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         overlayColor: WidgetStateProperty.all(Colors.black.withValues(alpha: 0.5)),
@@ -26,11 +33,16 @@ abstract class AppTheme {
     ),
   );
 
-  //-------------------------------------------------------------------------------------------------------------------
-
   static final darkTheme = ThemeData(
+    useMaterial3: true,
     scaffoldBackgroundColor: Colors.black,
-    iconTheme: IconThemeData(color: Colors.white),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.black,
+      surfaceTintColor: Colors.transparent,
+      scrolledUnderElevation: 0, // Prevents color change on scroll
+      centerTitle: true,
+    ),
+    iconTheme: const IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         overlayColor: WidgetStateProperty.all(Colors.white.withValues(alpha: 0.5)),
