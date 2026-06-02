@@ -18,8 +18,25 @@ Future<void> main() async {
   runApp(const Home());
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Future<void> _authInitFuture;
+  late Future<void> _signInFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // We initialize the futures here ONCE
+    final authCubit = sl<AuthCubit>();
+    _authInitFuture = authCubit.init();
+    _signInFuture = authCubit.signInRemotely();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +51,39 @@ class Home extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
+
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: state.themeData.brightness == Brightness.dark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
             child: FutureBuilder<void>(
-              future: authCubit.init(),
+              future: _authInitFuture, // Use the stored variable
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final signedInBefore = authCubit.isLoginInfoSaved;
+
                   Widget routePage = SignUpPage();
+
                   if (signedInBefore) {
                     routePage = FutureBuilder<void>(
-                      future: authCubit.signInRemotely(),
+                      future: _signInFuture, // Use the stored variable
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return ChatListPage(email: authCubit.userEmail!);
                         }
-                        return Center(
-                          child: CircularProgressIndicator(color: Colors.blue),
+                        return const Scaffold(
+                          body: Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
+                            ),
+                          ),
                         );
                       },
                     );
                   }
+
                   return MaterialApp(
+                    debugShowCheckedModeBanner: false,
                     home: routePage,
                     theme: state.themeData,
                     builder: (context, child) {
@@ -65,12 +91,16 @@ class Home extends StatelessWidget {
                         behavior: HitTestBehavior.opaque,
                         onTap: () =>
                             FocusManager.instance.primaryFocus?.unfocus(),
-                        child: child,
+                        child: child!,
                       );
                     },
                   );
                 }
-                return Center(child: const CircularProgressIndicator());
+                return const MaterialApp(
+                  home: Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  ),
+                );
               },
             ),
           );
