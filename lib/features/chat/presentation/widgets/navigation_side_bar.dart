@@ -35,44 +35,48 @@ class NavigationSideBar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ThemeSwitchButton(
-              size: context.responsiveValue<double>(
-                32,
-                tablet: 34,
-                desktop: 36,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ThemeSwitchButton(
+                size: context.responsiveValue<double>(
+                  24,
+                  tablet: 26,
+                  desktop: 28,
+                ),
               ),
             ),
           ],
         ),
-        Container(
-          height: context.responsiveValue(100),
-          width: context.responsiveValue(100),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              context.responsiveValue<double>(50),
-            ),
+        CircleAvatar(
+          radius: context.responsiveValue<double>(35, tablet: 36, desktop: 37),
 
-            color: Colors.blue,
-          ),
-          child: Center(
-            child: Text(
-              email[0],
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-                fontSize: context.responsiveValue(45, tablet: 47, desktop: 50),
+          backgroundColor: Colors.blue,
+          child: SizedBox.expand(
+            child: Padding(
+              padding: EdgeInsets.all(
+                context.responsiveValue(16, tablet: 14, desktop: 12),
+              ),
+              child: FittedBox(
+                child: Text(
+                  email[0].toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    // fontSize: context.responsiveValue(30, tablet: 31, desktop: 32),
+                  ),
+                ),
               ),
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            vertical: context.responsiveValue(20, tablet: 25, desktop: 30),
+            vertical: context.responsiveValue(18, tablet: 22, desktop: 26),
           ),
           child: Text(
             email,
             style: TextStyle(
-              fontSize: context.responsiveValue(20, tablet: 22, desktop: 24),
+              fontSize: context.responsiveValue(16, tablet: 18, desktop: 20),
             ),
           ),
         ),
