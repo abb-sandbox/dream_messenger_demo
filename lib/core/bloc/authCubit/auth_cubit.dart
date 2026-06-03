@@ -1,24 +1,24 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/core/constants.dart';
+import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../dependencyInjection/service_locator.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SharedPreferencesAsync _asyncPrefs;
+  final AuthRepository _authRepository;
   bool? _isLoginInfoSaved;
   String? _userEmail;
   String? _userPassword;
   String? _userID;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseDatabase _db = sl<FirebaseDatabase>();
 
-  AuthCubit({required asyncPrefs})
+  AuthCubit({required asyncPrefs, required authRepository})
     : _asyncPrefs = asyncPrefs,
+      _authRepository = authRepository,
       super(AuthInitialState());
 
   Stream<User?> get userStatus => _auth.authStateChanges();
@@ -47,11 +47,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signOut() async {
-    final ref = _db.ref("status/$_userID");
-    await ref.set({
-      "presence": "offline",
-      "last_changed": ServerValue.timestamp,
-    });
+    await _authRepository.updateUserStatus(setToOnline: false);
     await _auth.signOut();
     await _asyncPrefs.remove(Constants.passwordKey);
     await _asyncPrefs.remove(Constants.userID);
@@ -60,11 +56,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signInRemotely() async {
-    await _auth.signInWithEmailAndPassword(
-      email: _userEmail!,
-      password: _userPassword!,
-    );
-    emit(AuthSignedInState());
+    try {
+      await _authRepository.signIn(
+        AuthUserEntity(email: _userEmail!, password: _userPassword!),
+      );
+      emit(AuthSignedInState());
+    } catch (e) {
+      emit(AuthCubitError(message: e.toString()));
+    }
   }
 
   String? get userEmail => _userEmail;

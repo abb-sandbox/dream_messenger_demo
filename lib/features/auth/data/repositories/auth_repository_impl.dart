@@ -46,20 +46,35 @@ class AuthRepositoryImpl implements AuthRepository {
       final signUpRes = await _remoteDatasource.signUp(model);
       return signUpRes.fold((failure) => Left(failure), (success) async {
         final signInRes = await _remoteDatasource.signIn(model);
-        return signInRes.fold((failure)=> Left(failure), (_)async{
+        return signInRes.fold((failure) => Left(failure), (_) async {
           final localResult = await _localDatasource.saveSignUpCredentials(
             success.uid,
             model.email,
             model.password,
           );
           return localResult.fold(
-                (failure) => Left(failure),
-                (_) => Right(success.uid),
+            (failure) => Left(failure),
+            (_) => Right(success.uid),
           );
         });
       });
     } catch (err) {
       return Left(RepositoryLevelFailure(message: err.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateUserStatus({required bool setToOnline}) async {
+    try {
+      final remoteResult = setToOnline
+          ? await _remoteDatasource.setUserOnline()
+          : await _remoteDatasource.setUserOffline();
+      return remoteResult.fold(
+        (failure) => Left(failure),
+        (success) => Right(success),
+      );
+    } catch (e) {
+      return Left(RepositoryLevelFailure(message: e.toString()));
     }
   }
 }

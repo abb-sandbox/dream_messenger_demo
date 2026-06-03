@@ -48,6 +48,9 @@ Future<void> initAuthDependencies() async {
   sl.registerFactory<SignUpBloc>(() => SignUpBloc(signUpUseCase: sl()));
 
   sl.registerSingleton<AuthCubit>(
-    AuthCubit(asyncPrefs: sl<SharedPreferencesAsync>()),
+    AuthCubit(
+      asyncPrefs: sl<SharedPreferencesAsync>(),
+      authRepository: sl<AuthRepository>(),
+    ),
   );
 }

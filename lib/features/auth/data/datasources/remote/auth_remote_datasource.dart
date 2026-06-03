@@ -15,7 +15,9 @@ abstract interface class AuthRemoteDataSource {
 
   Future<Either<Failure, SignInSuccessModel>> signIn(AuthUserModel model);
 
-  Future<Either<Failure, Unit>> updateStatus();
+  Future<Either<Failure, Unit>> setUserOnline();
+
+  Future<Either<Failure, Unit>> setUserOffline();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -55,7 +57,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: model.email,
         password: model.password,
       );
-      final result = await updateStatus();
+      final result = await setUserOnline();
       return result.fold((failure) => Left(failure), (_) {
         return Right(SignInSuccessModel(uid: credential.user!.uid));
       });
@@ -88,18 +90,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateStatus() async {
+  Future<Either<Failure, Unit>> setUserOnline() async {
     final userId = auth.currentUser?.uid;
     if (userId == null) Left(RemoteDataFailure(message: "User not found"));
 
     DatabaseReference presenceRef = db.ref("status/$userId");
 
-    await presenceRef.onDisconnect().set(({
-      "presence": "offline",
-      "last_changed": ServerValue.timestamp,
-    }));
-
     try {
+      await presenceRef.onDisconnect().set(({
+        "presence": "offline",
+        "last_changed": ServerValue.timestamp,
+      }));
+
       await presenceRef.set({
         "presence": "online",
         "last_changed": ServerValue.timestamp,
@@ -108,5 +110,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return Left(RemoteDataFailure(message: e.toString()));
     }
     return Right(unit);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> setUserOffline() async {
+    try {
+      final userId = auth.currentUser?.uid;
+      final ref = db.ref("status/$userId");
+      await ref.set({
+        "presence": "offline",
+        "last_changed": ServerValue.timestamp,
+      });
+      return Right(unit);
+    } catch (e) {
+      return Left(RemoteDataFailure(message: e.toString()));
+    }
   }
 }
