@@ -1,5 +1,6 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/core/constants.dart';
+import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
@@ -55,14 +56,21 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthSignedOutState());
   }
 
-  Future<void> signInRemotely() async {
+  Future<void> syncLocalCredentials() async {
     try {
       await _authRepository.signIn(
         AuthUserEntity(email: _userEmail!, password: _userPassword!),
       );
       emit(AuthSignedInState());
     } catch (e) {
-      emit(AuthCubitError(message: e.toString()));
+      emit(
+        AuthCubitError(
+          failure: BlocLevelFailure(
+            message:
+                "Couldn't sync local existing user credentials to the remote due to error: ${e.toString()}",
+          ),
+        ),
+      );
     }
   }
 

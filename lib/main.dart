@@ -1,9 +1,11 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
+import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:dream_messenger_demo/firebase_options.dart';
+import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +29,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late Future<void> _authInitFuture;
-  late Future<void> _signInFuture;
+  late Future<void> _syncCreds;
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class _HomeState extends State<Home> {
     // We initialize the futures here ONCE
     final authCubit = sl<AuthCubit>();
     _authInitFuture = authCubit.init();
-    _signInFuture = authCubit.signInRemotely();
+    _syncCreds = authCubit.syncLocalCredentials();
   }
 
   @override
@@ -65,21 +67,28 @@ class _HomeState extends State<Home> {
                   Widget routePage = SignUpPage();
 
                   if (signedInBefore) {
-                    routePage = FutureBuilder<void>(
-                      future: _signInFuture, // Use the stored variable
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return ChatListPage(email: authCubit.userEmail!);
-                        }
-                        return const Scaffold(
-                          body: Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    routePage = BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthCubitError) {
+                            showSnackBar(context, state.failure);
+                          }
+                        },
+                        child: FutureBuilder<void>(
+                          future: _syncCreds, // Use the stored variable
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return ChatListPage(email: authCubit.userEmail!);
+                            }
+                            return const Scaffold(
+                              body: Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            );
+                          },
+                        ));
                   }
 
                   return MaterialApp(
@@ -98,8 +107,11 @@ class _HomeState extends State<Home> {
                 }
                 return const MaterialApp(
                   home: Scaffold(
-                    body: Center(child: CircularProgressIndicator()),
-                  ),
+                    body: Center(child: CircularProgressIndicator()
+                    )
+                    ,
+                  )
+                  ,
                 );
               },
             ),
