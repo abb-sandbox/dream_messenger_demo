@@ -18,7 +18,7 @@ class ChatCard extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.green,
               radius: context.responsiveValue(26),
-              child: Text(userName[0]),
+              child: Text(userName[0].toUpperCase()),
             ),
             Container(
               padding: EdgeInsets.only(
