@@ -4,12 +4,14 @@ import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import 'package:dream_messenger_demo/features/chat/domain/repositories/chat_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SharedPreferencesAsync _asyncPrefs;
   final AuthRepository _authRepository;
+  final ChatRepository _chatRepository;
   bool? _isLoginInfoSaved;
   String? _userEmail;
   String? _userPassword;
@@ -17,10 +19,14 @@ class AuthCubit extends Cubit<AuthState> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  AuthCubit({required asyncPrefs, required authRepository})
-    : _asyncPrefs = asyncPrefs,
-      _authRepository = authRepository,
-      super(AuthInitialState());
+  AuthCubit({
+    required asyncPrefs,
+    required authRepository,
+    required chatRepository,
+  }) : _asyncPrefs = asyncPrefs,
+       _authRepository = authRepository,
+       _chatRepository = chatRepository,
+       super(AuthInitialState());
 
   Stream<User?> get userStatus => _auth.authStateChanges();
 

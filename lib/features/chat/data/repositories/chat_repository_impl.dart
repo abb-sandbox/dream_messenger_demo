@@ -4,15 +4,18 @@ import 'package:dartz/dartz.dart';
 import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/chat/data/models/presence_model.dart';
 import 'package:dream_messenger_demo/features/chat/domain/repositories/chat_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final FirebaseDatabase db;
+  final FirebaseAuth auth;
 
-  ChatRepositoryImpl({required this.db});
+  ChatRepositoryImpl({required this.db, required this.auth});
 
   @override
-  Future<Either<Failure, StreamController<PresenceModel>>> getOnlineUsers() async {
+  Future<Either<Failure, StreamController<PresenceModel>>>
+  getOnlineUsers() async {
     DatabaseReference statusRef = db.ref("status");
 
     Query onlineQuery = statusRef.orderByChild("presence");
@@ -21,7 +24,7 @@ class ChatRepositoryImpl implements ChatRepository {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
         data.forEach((key, value) {
-            users.sink.add(PresenceModel.fromJson(key, value));
+          users.sink.add(PresenceModel.fromJson(key, value));
         });
       }
 
@@ -34,5 +37,24 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, void>> sendMessage(String message) {
     // TODO: implement sendMessage
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Stream<PresenceModel>>>
+  listenToCurrentUserPresence() async {
+    try {
+      final userId = auth.currentUser?.uid;
+      DatabaseReference statusRef = db.ref("status/$userId");
+
+      final stream = statusRef.onValue.map((event) {
+        final value = event.snapshot.value as Map<dynamic, dynamic>?;
+        return PresenceModel.fromJson(userId!, value!);
+      });
+      return Right(stream);
+    } catch (e) {
+      return Left(
+        RepositoryLevelFailure(message: "Unknown error: ${e.toString()}"),
+      );
+    }
   }
 }

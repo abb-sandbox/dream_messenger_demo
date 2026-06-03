@@ -5,6 +5,8 @@ import 'package:dream_messenger_demo/core/failure/failure.dart';
 import 'package:dream_messenger_demo/features/chat/data/models/presence_model.dart';
 
 abstract class ChatRepository {
+  Future<Either<Failure, Stream<PresenceModel>>> listenToCurrentUserPresence();
+
   Future<Either<Failure, StreamController<PresenceModel>>> getOnlineUsers();
 
   Future<Either<Failure, void>> sendMessage(String message);

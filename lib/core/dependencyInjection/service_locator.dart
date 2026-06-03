@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
 import 'package:dream_messenger_demo/core/bloc/themeBloc/theme_bloc.dart';
 import 'package:dream_messenger_demo/core/services/local_data_service.dart';
+import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dream_messenger_demo/features/chat/chat_dependencies.dart';
+import 'package:dream_messenger_demo/features/chat/domain/repositories/chat_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,4 +38,11 @@ Future<void> initDependencies() async {
 
   await initChatDependencies();
 
+  sl.registerSingleton<AuthCubit>(
+    AuthCubit(
+      asyncPrefs: sl<SharedPreferencesAsync>(),
+      authRepository: sl<AuthRepository>(),
+      chatRepository: sl<ChatRepository>(),
+    ),
+  );
 }

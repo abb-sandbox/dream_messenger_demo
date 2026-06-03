@@ -2,13 +2,17 @@ import 'package:dream_messenger_demo/features/chat/data/repositories/chat_reposi
 import 'package:dream_messenger_demo/features/chat/domain/repositories/chat_repository.dart';
 import 'package:dream_messenger_demo/features/chat/domain/usecases/get_online_users_usecase.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/bloc/chatListCubit/chat_list_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../../core/dependencyInjection/service_locator.dart';
 
 Future<void> initChatDependencies() async {
   sl.registerFactory<ChatRepository>(
-    () => ChatRepositoryImpl(db: sl<FirebaseDatabase>()),
+    () => ChatRepositoryImpl(
+      db: sl<FirebaseDatabase>(),
+      auth: FirebaseAuth.instance,
+    ),
   );
   sl.registerFactory<GetOnlineUsersUseCase>(
     () => GetOnlineUsersUseCase(chatRepository: sl<ChatRepository>()),

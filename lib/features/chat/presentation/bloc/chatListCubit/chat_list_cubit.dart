@@ -25,7 +25,7 @@ class ChatListCubit extends Cubit<ChatListState> {
         print("ADDING: ${data.uid}");
         onlineUsers[data.uid] = data;
       }
-      print("ONLINE USERS LIST IS UPDATED: ${onlineUsers}");
+      print("ONLINE USERS LIST IS UPDATED: $onlineUsers");
       emit(ChatListUpdated(onlineUsers: onlineUsers.values.toList()));
       // emit(ChatListUpdated(onlineUsers: onlineUsers.values.where((v) => v.presence == "online").toList()));
     });
