@@ -1,8 +1,11 @@
+import 'package:dream_messenger_demo/core/bloc/networkCubit/network_cubit.dart';
+import 'package:dream_messenger_demo/core/bloc/networkCubit/network_state.dart';
 import 'package:dream_messenger_demo/core/utils/responsive_helper.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_page.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/chat_card.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/navigation_side_bar.dart';
+import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
@@ -19,16 +22,16 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
+    context.read<NetworkCubit>().listenForUserChanges();
+    context.read<ChatListCubit>().getOnlineUsers();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final cubit = context.read<ChatListCubit>();
     return ScreenCoverage(
       child: SafeArea(
         child: Scaffold(
@@ -36,12 +39,23 @@ class _ChatListPageState extends State<ChatListPage> {
           body: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      _scaffoldKey.currentState?.openDrawer();
-                    },
-                    icon: Icon(Icons.menu),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0, left: 4.0),
+                    child: IconButton(
+                      onPressed: () {
+                        _scaffoldKey.currentState?.openDrawer();
+                      },
+                      icon: Icon(
+                        Icons.menu,
+                        size: context.responsiveValue(
+                          20,
+                          tablet: 22,
+                          desktop: 24,
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
@@ -51,16 +65,26 @@ class _ChatListPageState extends State<ChatListPage> {
                         desktop: 16,
                       ),
                     ),
-                    child: Text(
-                      "Dream",
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurface,
-                        fontSize: context.responsiveValue(
-                          22,
-                          tablet: 24,
-                          desktop: 26,
-                        ),
-                      ),
+                    child: BlocConsumer<NetworkCubit, NetworkState>(
+                      listener: (context, state) {
+                        if (state is UserNetworkError) {
+                          showSnackBar(context, state.failure);
+                        }
+                      },
+                      builder: (context, state) {
+                        print(state.runtimeType);
+                        return Text(
+                          state is UserIsOnline ? "Dream" : "Connecting...",
+                          style: TextStyle(
+                            color: theme.iconTheme.color,
+                            fontSize: context.responsiveValue(
+                              20,
+                              tablet: 22,
+                              desktop: 24,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -104,7 +128,7 @@ class _ChatListPageState extends State<ChatListPage> {
                     return Center(
                       child: IconButton(
                         onPressed: () async {
-                          await cubit.getOnlineUsers();
+                          // await cubit.getOnlineUsers();
                         },
                         icon: Icon(Icons.refresh),
                       ),

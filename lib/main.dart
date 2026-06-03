@@ -1,5 +1,6 @@
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_state.dart';
+import 'package:dream_messenger_demo/core/bloc/networkCubit/network_cubit.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/bloc/signUpBloc/sign_up_bloc.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/pages/sign_up_page.dart';
@@ -44,6 +45,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<NetworkCubit>(create: (_) => sl<NetworkCubit>()),
         BlocProvider<AuthCubit>(create: (_) => sl<AuthCubit>()),
         BlocProvider<ThemeBloc>(create: (_) => sl<ThemeBloc>()),
         BlocProvider<SignInBloc>(create: (_) => sl<SignInBloc>()),
@@ -68,27 +70,28 @@ class _HomeState extends State<Home> {
 
                   if (signedInBefore) {
                     routePage = BlocListener<AuthCubit, AuthState>(
-                        listener: (context, state) {
-                          if (state is AuthCubitError) {
-                            showSnackBar(context, state.failure);
+                      listener: (context, state) {
+                        if (state is AuthCubitError) {
+                          showSnackBar(context, state.failure);
+                        }
+                      },
+                      child: FutureBuilder<void>(
+                        future: _syncCreds, // Use the stored variable
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return ChatListPage(email: authCubit.userEmail!);
                           }
-                        },
-                        child: FutureBuilder<void>(
-                          future: _syncCreds, // Use the stored variable
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return ChatListPage(email: authCubit.userEmail!);
-                            }
-                            return const Scaffold(
-                              body: Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.blue,
-                                ),
+                          return const Scaffold(
+                            body: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
                               ),
-                            );
-                          },
-                        ));
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   }
 
                   return MaterialApp(
@@ -107,11 +110,8 @@ class _HomeState extends State<Home> {
                 }
                 return const MaterialApp(
                   home: Scaffold(
-                    body: Center(child: CircularProgressIndicator()
-                    )
-                    ,
-                  )
-                  ,
+                    body: Center(child: CircularProgressIndicator()),
+                  ),
                 );
               },
             ),
