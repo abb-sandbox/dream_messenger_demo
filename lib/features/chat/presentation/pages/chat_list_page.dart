@@ -72,12 +72,15 @@ class _ChatListPageState extends State<ChatListPage> {
                       child: ListView.separated(
                         separatorBuilder: (context, index) {
                           return Container(
-                            color: theme.colorScheme.surface,
-                            height: context.responsiveValue(
-                              0.2,
-                              tablet: 0.4,
-                              desktop: 0.6,
+                            margin: EdgeInsets.only(
+                              left: 56,
+                              bottom: 6,
+                              top: 6,
                             ),
+                            color: theme.colorScheme.surface.withValues(
+                              alpha: 0.1,
+                            ),
+                            height: context.responsiveValue(1),
                           );
                         },
                         itemCount: state.onlineUsers.length,
