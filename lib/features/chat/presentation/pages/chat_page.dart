@@ -1,9 +1,38 @@
 import 'package:dream_messenger_demo/core/appTheme/app_colors.dart';
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/screen_coverage.dart';
+import 'package:dream_messenger_demo/features/chat/domain/entities/message_entity.dart';
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+import '../../../../shared/widgets/show_snack_bar.dart';
+import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import '../bloc/chatCubit/chat_cubit.dart';
+import '../bloc/chatCubit/chat_state.dart';
+
+class ChatPage extends StatefulWidget {
+  final String sender;
+  final String receiver;
+
+  const ChatPage({super.key, required this.sender, required this.receiver});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final ScrollController _scrollController = ScrollController();
+  final messageTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    messageTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +51,39 @@ class ChatPage extends StatelessWidget {
           children: [
             // Messages List
             Expanded(
-              child: ListView.builder(
-                reverse: true,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 16,
-                ),
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  final isMe = index % 2 == 0;
-                  return _buildMessageBubble(
-                    context: context,
-                    text: isMe
-                        ? "This is a blue message sent by me!"
-                        : "This is a purple-blue message from someone else.",
-                    isMe: isMe,
-                    isDark: isDark,
+              child: BlocConsumer<ChatCubit, ChatState>(
+                listener: (context, state) {
+                  if (state is ChatError) {
+                    showSnackBar(context, state.failure);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ChatMessageUpdate) {
+                    final messages = state.messages;
+                    return ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 16,
+                      ),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        final isMe = message.from == widget.sender;
+                        return _buildMessageBubble(
+                          context: context,
+                          text: message.content,
+                          isMe: isMe,
+                          isDark: isDark,
+                        );
+                      },
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      "Be first to send a message!",
+                      style: TextStyle(color: theme.iconTheme.color),
+                    ),
                   );
                 },
               ),
@@ -62,16 +108,23 @@ class ChatPage extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              onEditingComplete: () => _sendMessage(),
+              controller: messageTextController,
+              style: TextStyle(color: theme.iconTheme.color),
               decoration: InputDecoration(
                 hintText: "Message",
                 hintStyle: TextStyle(color: theme.iconTheme.color),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(color: theme.iconTheme.color ?? Colors.grey),
+                  borderSide: BorderSide(
+                    color: theme.iconTheme.color ?? Colors.grey,
+                  ),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(color: theme.iconTheme.color ?? Colors.grey),
+                  borderSide: BorderSide(
+                    color: theme.iconTheme.color ?? Colors.grey,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -81,12 +134,25 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => _sendMessage(),
             icon: const Icon(Icons.send, color: AppColors.sentMessage),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _sendMessage() async {
+    await context.read<ChatCubit>().sendMessage(
+      MessageEntity(
+        type: "text",
+        content: messageTextController.text,
+        time: DateTime.timestamp().toString(),
+        from: widget.sender,
+        to: widget.receiver,
+      ),
+    );
+    messageTextController.clear();
   }
 
   Widget _buildMessageBubble({

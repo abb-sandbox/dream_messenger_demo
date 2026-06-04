@@ -6,9 +6,12 @@ import 'package:dream_messenger_demo/features/chat/presentation/pages/chat_page.
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/chat_card.dart';
 import 'package:dream_messenger_demo/features/chat/presentation/widgets/navigation_side_bar.dart';
 import 'package:dream_messenger_demo/shared/widgets/show_snack_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
+import '../bloc/chatCubit/chat_cubit.dart';
+import '../bloc/chatCubit/chat_state.dart';
 import '../bloc/chatListCubit/chat_list_cubit.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -23,11 +26,14 @@ class ChatListPage extends StatefulWidget {
 class _ChatListPageState extends State<ChatListPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void initState() {
     super.initState();
     context.read<NetworkCubit>().listenForUserChanges();
     context.read<ChatListCubit>().getOnlineUsers();
+    context.read<ChatCubit>().listenForIncomingMessages();
   }
 
   @override
@@ -115,7 +121,10 @@ class _ChatListPageState extends State<ChatListPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChatPage(),
+                                  builder: (context) => ChatPage(
+                                    sender: userId,
+                                    receiver: user.uid,
+                                  ),
                                 ),
                               );
                             },

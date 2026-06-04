@@ -29,10 +29,13 @@ Future<void> initDependencies() async {
   final dio = Dio(baseOptions);
 
   sl.registerSingleton<Dio>(dio);
+
   sl.registerSingleton<LocalDataService>(
     LocalDataService(asyncPrefs: sl<SharedPreferencesAsync>()),
   );
+
   final themeData = await sl<LocalDataService>().getTheme();
+
   sl.registerFactory(() => ThemeBloc(sl<LocalDataService>(), themeData));
 
   await initAuthDependencies();
