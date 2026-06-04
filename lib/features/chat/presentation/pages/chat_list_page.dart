@@ -22,6 +22,7 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -72,7 +73,6 @@ class _ChatListPageState extends State<ChatListPage> {
                         }
                       },
                       builder: (context, state) {
-                        print(state.runtimeType);
                         return Text(
                           state is UserIsOnline ? "Dream" : "Connecting...",
                           style: TextStyle(

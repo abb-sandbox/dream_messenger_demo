@@ -19,6 +19,9 @@ Future<void> initChatDependencies() async {
   );
 
   sl.registerSingleton<ChatListCubit>(
-    ChatListCubit(getOnlineUsersUseCase: sl<GetOnlineUsersUseCase>()),
+    ChatListCubit(
+      getOnlineUsersUseCase: sl<GetOnlineUsersUseCase>(),
+      auth: FirebaseAuth.instance,
+    ),
   );
 }
