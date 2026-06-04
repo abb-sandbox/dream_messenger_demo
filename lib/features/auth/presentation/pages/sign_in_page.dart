@@ -13,10 +13,10 @@ import '../widgets/google_auth_widget.dart';
 import '../widgets/password_field.dart';
 
 class SignInPage extends StatefulWidget {
-  String? passwordField;
-  String? emailField;
+  final String? passwordField;
+  final String? emailField;
 
-  SignInPage({super.key, this.passwordField, this.emailField});
+  const SignInPage({super.key, this.passwordField, this.emailField});
 
   @override
   State<SignInPage> createState() => _SignInPageState();

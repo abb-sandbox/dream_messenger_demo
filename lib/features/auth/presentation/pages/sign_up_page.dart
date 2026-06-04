@@ -9,16 +9,15 @@ import 'package:dream_messenger_demo/features/auth/presentation/widgets/email_fi
 import 'package:dream_messenger_demo/features/auth/presentation/widgets/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/bloc/authCubit/auth_cubit.dart';
 import '../../../chat/presentation/pages/chat_list_page.dart';
 import '../bloc/signInBloc/sign_in_bloc.dart';
 import '../widgets/google_auth_widget.dart';
 
 class SignUpPage extends StatefulWidget {
-  String? emailField;
-  String? passwordField;
+  final String? emailField;
+  final String? passwordField;
 
-  SignUpPage({super.key, this.emailField, this.passwordField});
+  const SignUpPage({super.key, this.emailField, this.passwordField});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -34,8 +33,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   initState() {
     super.initState();
-    passwordTextController = TextEditingController();
-    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController(text: widget.passwordField);
+    emailTextController = TextEditingController(text: widget.emailField);
     _formKey = GlobalKey<FormState>();
   }
 
@@ -51,7 +50,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final authCubit = context.read<AuthCubit>();
     final theme = Theme.of(context);
     return ScreenCoverage(
       child: Scaffold(
