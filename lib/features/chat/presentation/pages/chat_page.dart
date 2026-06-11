@@ -145,7 +145,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _sendMessage() async {
     final text = messageTextController.text;
     if (text.isNotEmpty) {
-      await context.read<ChatCubit>().sendMessage(
+      context.read<ChatCubit>().sendMessage(
         MessageEntity(
           type: "text",
           content: messageTextController.text,
