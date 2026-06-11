@@ -49,7 +49,6 @@ class _ChatPageState extends State<ChatPage> {
       body: ScreenCoverage(
         child: Column(
           children: [
-            // Messages List
             Expanded(
               child: BlocConsumer<ChatCubit, ChatState>(
                 listener: (context, state) {
@@ -61,6 +60,7 @@ class _ChatPageState extends State<ChatPage> {
                   if (state is ChatMessageUpdate) {
                     final messages = state.messages;
                     return ListView.builder(
+                      reverse: true,
                       controller: _scrollController,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -153,6 +153,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
     messageTextController.clear();
+    // _scrollController.jumpTo();
   }
 
   Widget _buildMessageBubble({

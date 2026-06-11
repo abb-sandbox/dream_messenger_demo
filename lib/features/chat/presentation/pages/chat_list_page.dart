@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 
 import '../../../auth/presentation/bloc/signInBloc/sign_in_bloc.dart';
 import '../bloc/chatCubit/chat_cubit.dart';
-import '../bloc/chatCubit/chat_state.dart';
 import '../bloc/chatListCubit/chat_list_cubit.dart';
 
 class ChatListPage extends StatefulWidget {

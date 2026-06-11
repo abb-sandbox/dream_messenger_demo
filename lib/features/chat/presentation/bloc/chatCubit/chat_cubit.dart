@@ -22,8 +22,7 @@ class ChatCubit extends Cubit<ChatState> {
       final result = await sendMessageUseCase(message);
       result.fold((failure) => emit(ChatError(failure: failure)), (_) {
         currentMessages.insert(0, message);
-        emit(ChatMessageUpdate(messages: currentMessages));
-      });
+        emit(ChatMessageUpdate(messages: currentMessages));});
     } catch (err) {
       emit(ChatError(failure: BlocLevelFailure(message: err.toString())));
     }
