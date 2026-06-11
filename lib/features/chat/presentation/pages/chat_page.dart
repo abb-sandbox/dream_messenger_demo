@@ -143,17 +143,19 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _sendMessage() async {
-    await context.read<ChatCubit>().sendMessage(
-      MessageEntity(
-        type: "text",
-        content: messageTextController.text,
-        time: DateTime.timestamp().toString(),
-        from: widget.sender,
-        to: widget.receiver,
-      ),
-    );
-    messageTextController.clear();
-    // _scrollController.jumpTo();
+    final text = messageTextController.text;
+    if (text.isNotEmpty) {
+      await context.read<ChatCubit>().sendMessage(
+        MessageEntity(
+          type: "text",
+          content: messageTextController.text,
+          time: DateTime.timestamp().toString(),
+          from: widget.sender,
+          to: widget.receiver,
+        ),
+      );
+      messageTextController.clear();
+    }
   }
 
   Widget _buildMessageBubble({
