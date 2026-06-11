@@ -11,7 +11,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../../chat/presentation/pages/chat_list_page.dart';
 import '../bloc/signInBloc/sign_in_bloc.dart';
-import '../widgets/google_auth_widget.dart';
 
 class SignUpPage extends StatefulWidget {
   final String? emailField;
@@ -94,8 +93,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
 
                         SizedBox(height: size.height * 0.01),
-
-                        GoogleAuthWidget(signIn: false),
 
                         Container(
                           margin: EdgeInsets.symmetric(

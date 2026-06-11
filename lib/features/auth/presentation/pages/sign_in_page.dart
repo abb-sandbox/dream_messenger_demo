@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/responsive_helper.dart';
 import '../widgets/email_field.dart';
-import '../widgets/google_auth_widget.dart';
 import '../widgets/password_field.dart';
 
 class SignInPage extends StatefulWidget {
@@ -92,8 +91,6 @@ class _SignInPageState extends State<SignInPage> {
 
                         SizedBox(height: size.height * 0.01),
 
-                        GoogleAuthWidget(signIn: true),
-
                         Container(
                           margin: EdgeInsets.symmetric(
                             vertical: size.height * 0.06,
@@ -108,18 +105,19 @@ class _SignInPageState extends State<SignInPage> {
                                 TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () =>Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignUpPage(
-                                          emailField:
-                                          emailTextController.text,
-                                          passwordField:
-                                          passwordTextController.text,
-                                        ),
-                                      ),
+                                    ..onTap = () =>
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SignUpPage(
+                                              emailField:
+                                                  emailTextController.text,
+                                              passwordField:
+                                                  passwordTextController.text,
+                                            ),
+                                          ),
                                           (route) => false,
-                                    ),
+                                        ),
                                   text: "Sign up",
                                   style: TextStyle(
                                     color: theme.colorScheme.primary,
