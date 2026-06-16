@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/bloc/themeBloc/theme_bloc.dart';
 import 'core/dependencyInjection/service_locator.dart';
-import 'features/chat/presentation/bloc/chatCubit/chat_cubit.dart' show ChatCubit;
+import 'features/chat/presentation/bloc/chatCubit/chat_cubit.dart'
+    show ChatCubit;
 import 'features/chat/presentation/bloc/chatListCubit/chat_list_cubit.dart';
 
 Future<void> main() async {
