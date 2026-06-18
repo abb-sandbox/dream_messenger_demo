@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class AuthUserEntity with EquatableMixin {
+class AuthUserEntity extends Equatable {
   final String email;
   final String password;
 
-  AuthUserEntity({
+  const AuthUserEntity({
     required this.email,
     required this.password,
   });

@@ -1,29 +1,30 @@
-abstract class Failure {
-  String message;
+import 'package:equatable/equatable.dart';
 
-  Failure({required this.message});
+abstract class Failure extends Equatable {
+  final String message;
+
+  const Failure({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
 
-// class FirebaseFailure extends Failure {
-//   FirebaseFailure({required super.message});
-// }
-
 class LocalDataFailure extends Failure {
-  LocalDataFailure({required super.message});
+  const LocalDataFailure({required super.message});
 }
 
 class RemoteDataFailure extends Failure {
-  RemoteDataFailure({required super.message});
+  const RemoteDataFailure({required super.message});
 }
 
 class RepositoryLevelFailure extends Failure {
-  RepositoryLevelFailure({required super.message});
+  const RepositoryLevelFailure({required super.message});
 }
 
 class BlocLevelFailure extends Failure {
-  BlocLevelFailure({required super.message});
+  const BlocLevelFailure({required super.message});
 }
 
 class UseCaseLevelFailure extends Failure {
-  UseCaseLevelFailure({required super.message});
+  const UseCaseLevelFailure({required super.message});
 }

@@ -12,7 +12,6 @@ import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_ent
 import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -109,48 +108,4 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, _i2.Unit>>);
-}
-
-/// A class which mocks [AuthUserEntity].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockAuthUserEntity extends _i1.Mock implements _i6.AuthUserEntity {
-  @override
-  String get email =>
-      (super.noSuchMethod(
-            Invocation.getter(#email),
-            returnValue: _i7.dummyValue<String>(
-              this,
-              Invocation.getter(#email),
-            ),
-            returnValueForMissingStub: _i7.dummyValue<String>(
-              this,
-              Invocation.getter(#email),
-            ),
-          )
-          as String);
-
-  @override
-  String get password =>
-      (super.noSuchMethod(
-            Invocation.getter(#password),
-            returnValue: _i7.dummyValue<String>(
-              this,
-              Invocation.getter(#password),
-            ),
-            returnValueForMissingStub: _i7.dummyValue<String>(
-              this,
-              Invocation.getter(#password),
-            ),
-          )
-          as String);
-
-  @override
-  List<Object?> get props =>
-      (super.noSuchMethod(
-            Invocation.getter(#props),
-            returnValue: <Object?>[],
-            returnValueForMissingStub: <Object?>[],
-          )
-          as List<Object?>);
 }
