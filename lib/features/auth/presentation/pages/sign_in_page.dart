@@ -153,6 +153,7 @@ class _SignInPageState extends State<SignInPage> {
                               );
                             }
                             return InkWell(
+                              key: const Key("sign_in_btn"),
                               borderRadius: BorderRadius.circular(
                                 Constants.regularRadius,
                               ),

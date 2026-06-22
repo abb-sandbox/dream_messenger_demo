@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,7 @@ class _EmailFieldState extends State<EmailField> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return TextFormField(
+      key: const Key("email_input"),
       focusNode: widget.focus,
       onFieldSubmitted: (_) => widget.onSubmitted(),
       validator: (value) {

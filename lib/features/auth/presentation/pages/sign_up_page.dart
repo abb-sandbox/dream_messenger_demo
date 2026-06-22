@@ -155,6 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               return CircularProgressIndicator();
                             }
                             return InkWell(
+                              key: const Key("sign_up_btn"),
                               borderRadius: BorderRadius.circular(
                                 Constants.regularRadius,
                               ),

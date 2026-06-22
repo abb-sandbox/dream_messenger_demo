@@ -14,6 +14,7 @@ import '../../features/auth/auth_dependencies.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
+  await sl.reset();
   final asyncPrefs = SharedPreferencesAsync(
     options: SharedPreferencesOptions(),
   );

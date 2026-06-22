@@ -27,6 +27,7 @@ class _PasswordFieldState extends State<PasswordField> {
     final size = MediaQuery.of(context).size;
 
     return TextFormField(
+      key: const Key("password_input"),
       focusNode: widget.focus,
       validator: (value) {
         if (value == null || value.isEmpty || value.length < 8) {
