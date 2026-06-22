@@ -8,15 +8,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-@GenerateNiceMocks([MockSpec<AuthRepository>()])
-import "app_test.mocks.dart";
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets("Sign up, sign in, find another user, send message, sign out ", (
     tester,
   ) async {
-    final mockAuthRepository = MockAuthRepository();
 
     app.main(); // start the app
 
@@ -27,9 +24,6 @@ void main() async {
     await tester.pumpAndSettle();
 
     ///////////////// SIGN UP (START)///////////
-    when(
-      mockAuthRepository.signUp(any),
-    ).thenAnswer((_) async => const Right("unique_id"));
 
     final emailField = find.byKey(const Key("email_input"));
     final passwordField = find.byKey(const Key("password_input"));
