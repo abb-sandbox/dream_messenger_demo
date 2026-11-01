@@ -1,13 +1,9 @@
-import 'package:dartz/dartz.dart';
 import 'package:dream_messenger_demo/core/bloc/authCubit/auth_cubit.dart';
 import 'package:dream_messenger_demo/core/dependencyInjection/service_locator.dart';
-import 'package:dream_messenger_demo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:dream_messenger_demo/main.dart' as app;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

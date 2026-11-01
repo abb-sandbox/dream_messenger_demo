@@ -15,7 +15,7 @@ import 'core/dependencyInjection/service_locator.dart';
 import 'features/chat/presentation/bloc/chatCubit/chat_cubit.dart'
     show ChatCubit;
 import 'features/chat/presentation/bloc/chatListCubit/chat_list_cubit.dart';
-
+ 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

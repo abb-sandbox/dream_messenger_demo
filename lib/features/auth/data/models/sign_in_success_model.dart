@@ -1,7 +1,7 @@
 import 'package:dream_messenger_demo/features/auth/domain/entities/sign_in_success_entity.dart';
 import 'package:equatable/equatable.dart';
 
-class SignInSuccessModel extends SignInSuccessEntity with EquatableMixin {
+class SignInSuccessModel extends SignInSuccessEntity with Equatable {
   SignInSuccessModel({required super.uid});
 
   factory SignInSuccessModel.fromEntity(SignInSuccessEntity e) {

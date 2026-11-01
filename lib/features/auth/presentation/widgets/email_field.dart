@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:dream_messenger_demo/core/constants.dart';
 import 'package:flutter/material.dart';

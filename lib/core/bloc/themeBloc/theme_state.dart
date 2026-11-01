@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-abstract class ThemeState with EquatableMixin {
+abstract class ThemeState with Equatable {
   final ThemeData themeData;
 
   ThemeState({required this.themeData});

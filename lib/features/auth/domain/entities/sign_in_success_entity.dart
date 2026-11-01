@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class SignInSuccessEntity with EquatableMixin {
+class SignInSuccessEntity with Equatable {
   final String uid;
 
   SignInSuccessEntity({required this.uid});

@@ -1,7 +1,7 @@
 import 'package:dream_messenger_demo/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:equatable/equatable.dart';
 
-class AuthUserModel extends AuthUserEntity with EquatableMixin {
+class AuthUserModel extends AuthUserEntity with Equatable {
   AuthUserModel({
     required super.email,
     required super.password,
