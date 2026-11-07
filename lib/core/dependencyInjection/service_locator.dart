@@ -22,7 +22,7 @@ Future<void> initDependencies() async {
   sl.registerSingleton<SharedPreferencesAsync>(asyncPrefs);
 
   final baseOptions = BaseOptions(
-    baseUrl: "http://delightful-codie-abb-sandbox-3f6303bc.koyeb.app",
+    // baseUrl: "http://delightful-codie-abb-sandbox-3f6303bc.koyeb.app",
     connectTimeout: Duration(seconds: 5),
     receiveTimeout: Duration(seconds: 5),
   );

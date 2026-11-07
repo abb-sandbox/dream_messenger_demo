@@ -9,8 +9,6 @@ import 'package:firebase_database/firebase_database.dart';
 import '../../models/sign_up_success_model.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserModel model);
-
   Future<Either<Failure, SignUpSuccessModel>> signUp(AuthUserModel model);
 
   Future<Either<Failure, SignInSuccessModel>> signIn(AuthUserModel model);
@@ -32,23 +30,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   });
 
   @override
-  Future<Either<Failure, Unit>> sendLinkToEmail(AuthUserModel model) async {
-    try {
-      final response = await dio.post(
-        "/api/v1/auth/register",
-        data: model.toJson(),
-      );
-      if (response.statusCode == 201) {
-        return Right(unit);
-      } else {
-        return Left(RemoteDataFailure(message: response.data));
-      }
-    } catch (err) {
-      return Left(RemoteDataFailure(message: err.toString()));
-    }
-  }
-
-  @override
   Future<Either<Failure, SignInSuccessModel>> signIn(
     AuthUserModel model,
   ) async {
@@ -58,7 +39,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         password: model.password,
       );
       final result = await setUserOnline();
-      return result.fold((failure) => Left(failure), (_) {
+      return await result.fold((failure) => Left(failure), (_) {
         return Right(SignInSuccessModel(uid: credential.user!.uid));
       });
     } on FirebaseAuthException catch (err) {
